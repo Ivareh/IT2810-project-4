@@ -1,0 +1,252 @@
+* {
+    box-sizing: border-box;
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    /* font-family: "Libre Caslon Text", serif; */
+    font-size: 16px;
+    color: white;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+/* Header & Navbar*/
+#header {
+    margin: 0;
+    background: url(../assets/images/theatreBackground.webp) no-repeat fixed;
+    background-size: cover;
+    background-position: center center;
+    height: 63vh;
+}
+
+#navMenu {
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+}
+
+#navMenu h2 {
+    font-family: "Zen Tokyo Zoo", cursive;
+    font-size: 25px;
+    color: white;
+}
+
+#myProfile {
+    letter-spacing: 1px;
+}
+
+
+#logo h2 {
+    padding-left: 20px;
+}
+
+#mainText {
+    display: flex;
+    justify-content: center;
+    margin-top: 14vh;
+}
+
+h3 {
+    margin-bottom: 0;
+}
+
+p {
+    font-size: 18px;
+}
+
+
+/* SelectFilter */
+#selectFilterContainer {
+    display: flex;
+    justify-content: space-between;
+    min-width: 375px;
+    width: 60%;
+    align-self: center;
+    z-index: 3;
+}
+
+#selectFilter {
+    /* place items at the end of the container */
+    margin-top: 10px;
+    min-width: 270px;
+    color: black;
+}
+
+#sortingContainer {
+    display: flex;
+    justify-content: space-between;
+    min-width: 375px;
+    width: 60%;
+    align-self: center;
+    z-index: 2;
+}
+
+#sortFilter {
+    margin-top: 10px;
+    min-width: 270px;
+    color: black;
+}
+
+.css-1s2u09g-control:hover{
+    /* sortFilter and selectFilter boxes */
+    cursor: pointer;
+    background-color:#e6e6e6;
+}
+
+
+/* Search field*/
+#searchContainer {
+    width: 60%;
+    min-width: 375px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#filled-search {
+    background-color: white;
+    /* height: 40px;
+    padding-left: 20px; */
+    padding-right: 70px;
+}
+
+#search:hover{
+    background-color:#e6e6e6;
+}
+
+#searchButton {
+    background-color: black;
+    color: white;
+    margin-left: -60px;
+}
+
+#searchButton:hover {
+    background-color:#262626;
+}
+
+#searchButton:focus-visible {
+    outline: 2px solid blue;
+    /* outline-offset: 3px; */
+}
+
+.MuiButtonBase-root:focus-visible {
+    outline: 2px solid blue;
+    /* outline-offset: 3px; */
+}
+
+
+/* #sortBy {
+    margin-left: 220px;
+    font-size: 16px;
+    margin-top: 10px;
+} */
+
+
+/* Netflix movies list*/
+#infotextContainer {
+    width: 60%;
+    min-width: 375px;
+    font-size: 18px;
+}
+
+#netflixContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#netflixList {
+    width: 60%;
+    background-color: white;
+    min-width: 375px;
+    margin-top: 10px;
+}
+
+.MuiTableCell-root {
+    font-size: 1rem !important;
+}
+
+.MuiTableBody-root:hover {
+    cursor: pointer;
+}
+
+.MuiTableRow-root:hover {
+    background-color: #ebebeb;
+}
+
+#showtableHeader:focus-visible, #showtableBody:focus-visible {
+    outline: 2px solid blue;
+    background-color: #ebebeb;
+}
+
+/* Modal */ 
+#myRatingInModalText, #myTextRatingIDlabel {
+    color: black;
+}
+
+
+/* Footer */
+#footerContainer {
+    flex-wrap: nowrap;
+    margin: 0;
+    justify-content: space-evenly;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+#footerText, #gitlabLink {
+    text-align: center;
+
+}
+
+a {
+    color: aqua;
+}
+
+#tablepagenumbers {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    #mainText h1 {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #selectFilterContainer, #sortingContainer, #searchContainer {
+        min-width: 350px;
+    }
+
+    #netflixList {
+        width: 100%;
+    }
+
+    #mainText h1 {
+        text-align: center;
+        width: 75%;
+        align-self: center;
+    }
+
+    #navMenu h2 {
+        font-size: 20px;
+    }
+
+}
