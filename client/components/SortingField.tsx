@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     sortingField: {
-        width: 200,
+        minWidth: 150,
         height: 25,
         marginBottom: 10,
+        fontSize: 18
     },
     text : {
         fontSize: 18,
@@ -38,11 +39,11 @@ const styles = StyleSheet.create({
  * parent.
  */
 export function SortingField({getSortType}: props) {
-    const [selectedOption, setSelectedOption] = React.useState(types[0]);
+    const [selectedOption, setSelectedOption] = React.useState("DESC");
 
-    const handleChange = (choice: { label: string; value: string; }) => {
+    const handleChange = (choice: string) => {
         setSelectedOption(choice);
-        getSortType(choice.value);
+        getSortType(choice);
     }
 
     return (
@@ -55,10 +56,10 @@ export function SortingField({getSortType}: props) {
                 nativeID={"sortFilter"}
                 aria-label='select show type'
                 selectedValue={selectedOption}
-                onValueChange={(choice) => handleChange(choice as { label: string; value: string; })}
+                onValueChange={(choice) => handleChange(choice)}
             >
-                <Picker.Item label="Release Year newest-oldest" value="DESC" />
-                <Picker.Item label="Release Year oldest-newest" value="ASC" />
+                <Picker.Item label="Ascending" value="DESC" />
+                <Picker.Item label="Descending" value="ASC" />
             </Picker>
 
         </View>
