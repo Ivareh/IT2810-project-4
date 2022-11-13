@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
         width: 200,
         height: 25,
         marginBottom: 10,
+    },
+    text : {
+        fontSize: 18,
     }
 })
 
@@ -44,7 +47,9 @@ export function SortingField({getSortType}: props) {
 
     return (
         <View style={styles.container} nativeID={"sortingContainer"}>
-            <Text>Sort by: </Text>
+            <Text
+            style={styles.text}
+            >Sort by: </Text>
             <Picker
                 style={styles.sortingField}
                 nativeID={"sortFilter"}

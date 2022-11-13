@@ -39,6 +39,9 @@ function SelectFilter({handleSelect}: props) {
             height: 25,
             marginBottom: 10,
 
+        },
+        text : {
+            fontSize: 18,
         }
     })
 
@@ -47,7 +50,9 @@ function SelectFilter({handleSelect}: props) {
         <View
             style={styles.container}
             nativeID="selectFilterContainer">
-            <Text>Select show type:</Text>
+            <Text
+            style={styles.text}
+            >Select show type:</Text>
             <Picker
                 style={styles.selectFilter}
                 nativeID={"selectFilter"}

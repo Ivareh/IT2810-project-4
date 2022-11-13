@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         flexWrap: "nowrap",
         marginTop: '20px',
         justifyContent: 'space-evenly',
+        marginBottom: '20px',
     },
     text: {
         textAlign: 'center',
