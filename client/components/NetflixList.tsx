@@ -1,9 +1,9 @@
 import ShowsTable from "./ShowsTable";
-import {Grid} from "@mui/material";
 import SelectFilter from "./SelectFilter";
 import SortingField from "./SortingField";
 import SearchField from "./SearchField";
 import React, {useState} from "react";
+import {StyleSheet, View} from "react-native";
 
 
 /**
@@ -22,13 +22,26 @@ export default function NetflixList() {
         setValue(value)
     }
 
+    const styles = StyleSheet.create({
+        container: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginTop: 20,
+            marginBottom: 20,
+            width: "100%",
+
+        }
+    })
+
     return (
-        <Grid id="netflixContainer">
+        <View style={styles.container} nativeID="netflixContainer">
             <SelectFilter handleSelect={handleSelect}/>
             <SortingField getSortType={getSortType}/>
             <SearchField/>
             <ShowsTable value={value} sort={sort}/>
-        </Grid>
+        </View>
     )
 
 }

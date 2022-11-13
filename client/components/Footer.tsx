@@ -1,38 +1,51 @@
-import {Grid} from "@mui/material";
+import {StyleSheet, Text, View} from "react-native";
+
+const styles = StyleSheet.create({
+    footer: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+        marginTop: '20px',
+        justifyContent: 'space-evenly',
+    },
+    text: {
+        textAlign: 'center',
+        letterSpacing: 1,
+        fontSize: 18,
+    }
+})
 
 /**
  * Returns a footer for the application.
  */
-export default function Footer() {
+const Footer = () => {
     return (
-        <Grid
-            id="footerContainer"
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            height="fit-content"
-            sx={{py: 2, px: 2, mt: 2, boxShadow: 1}}
-        >
-            <div id="footerText">
-
-                <p tabIndex={0}>Netflix Library © Team
-                    62</p>
-            </div>
-            <div id="gitlabLink">
-
-                <p>
-                    Check us out on{' '}
+        <View
+            nativeID={"footer"}
+            style={styles.footer}>
+            <View
+                style={{justifyContent: "space-evenly"}}
+            >
+                <Text style={styles.text}>Netflix Library © Team
+                    62</Text>
+            </View>
+            <View
+                style={{justifyContent: "space-evenly"}}
+            >
+                <Text style={styles.text}> Check us out on{' '}
                     <a
                         href="https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3"
                         target="_blank"
                         rel="noreferrer"
+                        style={{color: 'blue'}}
                     >
                         GitLab
-                    </a>
-                </p>
-            </div>
-        </Grid>
+                    </a></Text>
+            </View>
 
-    );
+        </View>
+
+    )
 }
+export default Footer;

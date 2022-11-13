@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Grid, Pagination} from "@mui/material";
+import {Pagination} from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,6 +14,7 @@ import {StateContainer} from "./container/StateContainer";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import Rating from "@mui/material/Rating";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
+import {StyleSheet, Text, View} from "react-native";
 
 
 interface IShow {
@@ -57,8 +58,8 @@ function ShowsTable({value, sort}: Props) {
             sortReleaseYear: sort
         },
         onCompleted: data => {
-          setPageCount(Math.ceil(data.showsAggregate.count / 12))
-        } 
+            setPageCount(Math.ceil(data.showsAggregate.count / 12))
+        }
     });
 
     /**
@@ -117,22 +118,38 @@ function ShowsTable({value, sort}: Props) {
 
     }
 
+    const styles = StyleSheet.create({
+        table: {
+            width: "70%",
+            backgroundColor: "white",
+            marginTop: "20px",
+        },
+        info: {
+            width: "70%",
+            fontSize: "18px",
+        }
+    })
+
 
     return (
         <>
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
                                       handleClose={() => handleClose()}/>}
-            <div id="infotextContainer">
-                <p tabIndex={0}>
+            <View
+                style={styles.info}
+                nativeID="infotextContainer">
+                <Text>
                     {searchResult()}
-                </p>
-                <p tabIndex={0}> 
+                </Text>
+                <Text>
                     {searchCount === 0 ? "View and review Netflix shows below:" : "You have " +
-                    " reviewed " + searchCount + " Netflix shows in this session."}
-                </p>
-            </div>
-            
-            <Grid id="netflixList">
+                        " reviewed " + searchCount + " Netflix shows in this session."}
+                </Text>
+            </View>
+
+            <View
+                style={styles.table}
+                nativeID="netflixList">
                 <TableContainer
                     component={Paper}
                     sx={{
@@ -150,38 +167,39 @@ function ShowsTable({value, sort}: Props) {
                             <TableRow id="showtableHeader" tabIndex={0}>
                                 <TableCell
                                     align="center">Type</TableCell>
-                                <TableCell  align="center">Title</TableCell>
-                                <TableCell 
+                                <TableCell align="center">Title</TableCell>
+                                <TableCell
                                     align="center"
                                 >Release Year</TableCell>
                                 <TableCell
                                     align="center">Your rating</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody >
+                        <TableBody>
                             {Object.values(data.shows as IShow[]).flat().map((show) => (
                                 <TableRow id="showtableBody" tabIndex={0}
-                                    key={show.show_id}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {border: 0}
-                                    }}
-                                    onClick={() => {
-                                        handleOpen();
-                                        setShowId(show.show_id);
-                                    }}
-                                    onKeyUp={(e) => { 
-                                        if (e.key === "Enter" && !e.defaultPrevented) 
-                                        e.currentTarget.click(); }}
+                                          key={show.show_id}
+                                          sx={{
+                                              "&:last-child td, &:last-child th": {border: 0}
+                                          }}
+                                          onClick={() => {
+                                              handleOpen();
+                                              setShowId(show.show_id);
+                                          }}
+                                          onKeyUp={(e) => {
+                                              if (e.key === "Enter" && !e.defaultPrevented)
+                                                  e.currentTarget.click();
+                                          }}
 
                                 >
-                                    <TableCell 
+                                    <TableCell
                                         align="center"
                                         data-testid="c"
                                     >{show.type}</TableCell>
-                                    <TableCell 
+                                    <TableCell
                                         data-testid="title-cell"
                                         align="center">{show.title}</TableCell>
-                                    <TableCell 
+                                    <TableCell
                                         align="center">{show.release_year}</TableCell>
                                     <TableCell
                                         align="center"><Rating
@@ -199,12 +217,14 @@ function ShowsTable({value, sort}: Props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Pagination id="tablepagenumbers"
-                            onChange={handlePageNumberChange}
-                            count={pageCount}
-                            color={"primary"}
+                <Pagination
+                    style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}
+                    id="tablepagenumbers"
+                    onChange={handlePageNumberChange}
+                    count={pageCount}
+                    color={"primary"}
                 />
-            </Grid>
+            </View>
         </>
 
 
