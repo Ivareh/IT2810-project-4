@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Pagination} from "@mui/material";
-import Table from "@mui/material/Table";
+// import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -14,6 +14,7 @@ import CircularIndeterminate from "./container/CircularIndeterminate";
 import Rating from "@mui/material/Rating";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
 import {StyleSheet, Text, View} from "react-native";
+import {Table, Row, Rows} from 'react-native-table-component';
 
 
 interface IShow {
@@ -30,7 +31,6 @@ type Props = {
     sort: string;
 
 }
-
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -112,6 +112,13 @@ function ShowsTable({value, sort}: Props) {
         }
 
     }
+    
+    // Converts the data to a format that is compatible with the table component. From https://stackoverflow.com/questions/22477612/converting-array-of-objects-into-array-of-arrays
+    var dataOutput = data.shows.map(function(obj: any) {
+        return Object.keys(obj).slice(2).map(function(key) { 
+          return obj[key];
+        });
+      });
 
     const styles = StyleSheet.create({
         table: {
@@ -122,12 +129,16 @@ function ShowsTable({value, sort}: Props) {
         info: {
             width: "70%",
             fontSize: "18px",
-        }
+        },
+        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+        head: { height: 40, backgroundColor: '#f1f8ff' },
+        text: { margin: 6 }
     })
-
 
     return (
         <>
+        {console.log(data.shows)}
+            {console.log(dataOutput)}
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
                                       handleClose={() => handleClose()}/>}
             <View
@@ -145,7 +156,11 @@ function ShowsTable({value, sort}: Props) {
             <View
                 style={styles.table}
                 nativeID="netflixList">
-                <TableContainer
+                <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+                    <Row data={Object.keys(data.shows[0]).slice(2)} style={styles.head} textStyle={styles.text}/>
+                    <Rows data={dataOutput} textStyle={styles.text}/>
+                </Table>
+   {/*              <TableContainer
                     component={Paper}
                     sx={{
                         marginLeft: "auto",
@@ -211,7 +226,7 @@ function ShowsTable({value, sort}: Props) {
                             ))}
                         </TableBody>
                     </Table>
-                </TableContainer>
+                </TableContainer> */}
                 <Pagination
                     style={{
                         display: 'flex',
