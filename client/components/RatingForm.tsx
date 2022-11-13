@@ -2,12 +2,10 @@ import * as React from 'react';
 import {useState} from 'react';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Button from '@mui/material/Button';
-import {Grid} from "@mui/material";
 import {gql, useMutation} from "@apollo/client";
 import {ADD_REVIEW} from "../schemas/Queries";
 import {reviewCount} from "./globalVariables";
+import {Pressable, StyleSheet, Text, TextInput, View} from "react-native";
 
 
 type RatingFormProps = { show_id: string, handleClose: () => void, rating: number | null };
@@ -17,7 +15,11 @@ type RatingFormProps = { show_id: string, handleClose: () => void, rating: numbe
  * Contains a rating- and a TextAreaAutosize component from MUI which is
  * customized for our application.
  */
-export default function RatingForm({show_id, handleClose, rating}: RatingFormProps) {
+export default function RatingForm({
+                                       show_id,
+                                       handleClose,
+                                       rating
+                                   }: RatingFormProps) {
     const [text, setText] = useState('')
     const [value, setValue] = React.useState<number | null>(rating || 0);
     const [didExecute, setDidExecute] = useState(false)
@@ -79,12 +81,48 @@ export default function RatingForm({show_id, handleClose, rating}: RatingFormPro
 
     if (error) return <p>Error! {error.message}</p>;
 
+    const styles = StyleSheet.create({
+        container: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+        },
+        button: {
+            borderRadius: 20,
+            padding: 10,
+            elevation: 2,
+            alignSelf: "center",
+            width: 200,
+            marginBottom: 10,
+        },
+        buttonReview: {
+            backgroundColor: "#2196F3",
+        },
+        buttonClose: {
+            backgroundColor: "grey",
+        },
+        textStyle: {
+            color: "white",
+            fontWeight: "bold",
+            textAlign: "center"
+        },
+        textSuccess: {
+            color: "green",
+            fontWeight: "bold",
+            marginBottom: 5,
+        },
+        textError: {
+            color: "red",
+            fontWeight: "bold",
+            marginBottom: 5,
+        }
+    })
+
     return (
-        <Grid container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-            //   id="modalContainer"
+        <View
+            style={styles.container}
         >
             <Typography component="legend" id="myRatingInModalText"
                         sx={{
@@ -105,51 +143,55 @@ export default function RatingForm({show_id, handleClose, rating}: RatingFormPro
                     setIsValueValid(true)
                 }}
             />
-            <label htmlFor="myTextRatingID" id="myTextRatingIDlabel">Write
-                review</label>
-            <TextareaAutosize
-                id="myTextRatingID"
-                aria-label="Write review text area"
-                data-testid={'data-input'}
-                minRows={4}
-                value={text}
-                placeholder={'Write review'}
-                maxRows={10}
-                onChange={(event) => {
-                    setText(event.target.value as string)
-                    setDidExecute(false)
-                }
-                }
+            <TextInput
                 style={{
-                    minWidth: 100,
-                    minHeight: 100,
-                    width: 300,
+                    borderStyle: 'solid',
+                    borderWidth: 0.5,
+                    width: 200,
                     height: 100,
-                    maxWidth: 350,
-                    maxHeight: 300,
-                    marginBottom: '10px',
-                    justifyContent: 'center',
-                    alignContent: 'center'
+                    marginTop: 10,
+                    marginBottom: 10,
+                    paddingLeft: 5,
                 }}
-            />
-            <Button variant="contained"
-                    data-testid={'submit-button'}
-                    sx={{width: '100px', justifyContent: 'center'}}
-                    color="success"
-                    onClick={() => {
-                        validateRating(value as number)
-                    }}>Rate</Button>
-            {!isValueValid && <p data-testid={'reviewFeedback'}
-                                style={{color: "black"}}>Please select a number
-                between 1-5</p>}
-            {didExecute && <p data-testid={'reviewFeedback'}
-                              style={{color: "black"}}>Review successful!</p>}
-            <Button variant="contained"
-                    sx={{width: '200px', justifyContent: 'center', mt: '15px'}}
-                    color="error"
-                    data-testid={'close-button'}
-                    onClick={() => handleClose()
-                    }>Close</Button>
-        </Grid>
+                data-testid={'data-input'}
+                nativeID={'myTextRatingID'}
+                aria-label="Write review text area"
+                multiline={true}
+                numberOfLines={4}
+                maxLength={200}
+                placeholder="Write a review"
+                onChangeText={(text) => {
+                    setText(text as string)
+                    setDidExecute(false)
+                }}
+                value={text}/>
+
+
+            <Pressable
+                style={[styles.button, styles.buttonReview]}
+                data-testid={'submit-button'}
+                onPress={() => {
+                    validateRating(value as number)
+                }}
+            >
+                <Text style={styles.textStyle}>Rate</Text>
+            </Pressable>
+            {!isValueValid && <Text data-testid={'reviewFeedback'}
+                                    style={styles.textError}>Please select a
+                number
+                between 1-5</Text>}
+            {didExecute && <Text data-testid={'reviewFeedback'}
+                                 style={styles.textSuccess}>Review
+                successful!</Text>}
+
+            <Pressable
+                style={[styles.button, styles.buttonClose]}
+                data-testid={'close-button'}
+                onPress={() => handleClose()}
+            >
+                <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
+
+        </View>
     );
 }

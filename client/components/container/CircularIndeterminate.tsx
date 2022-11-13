@@ -1,11 +1,21 @@
 import * as React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import {ActivityIndicator, StyleSheet, View} from "react-native";
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
+    }
+});
 
 export default function CircularIndeterminate() {
     return (
-        <Box sx={{display: 'flex'}}>
-            <CircularProgress/>
-        </Box>
+        <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size="large" />
+        </View>
     );
 }

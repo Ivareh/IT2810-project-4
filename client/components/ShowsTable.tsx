@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
-import {StateContainer} from "./container/StateContainer";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import Rating from "@mui/material/Rating";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
@@ -74,15 +73,11 @@ function ShowsTable({value, sort}: Props) {
     }
 
     if (error) return (
-        <StateContainer>
-            <p data-testid={"error-p"}>Error! {error.message} </p>
-        </StateContainer>
+        <p data-testid={"error-p"}>Error! {error.message} </p>
     )
 
     if (loading) return (
-        <StateContainer>
-            <CircularIndeterminate/>
-        </StateContainer>
+        <CircularIndeterminate/>
     )
 
     function handleClose() {
@@ -218,7 +213,11 @@ function ShowsTable({value, sort}: Props) {
                     </Table>
                 </TableContainer>
                 <Pagination
-                    style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '20px'
+                    }}
                     id="tablepagenumbers"
                     onChange={handlePageNumberChange}
                     count={pageCount}
