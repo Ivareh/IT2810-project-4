@@ -60,6 +60,9 @@ function ShowsTable({value, sort}: Props) {
      * Function to handle the pagination. Calls refetch with the new offset.
      */
     const handlePageNumberChange = (value: number) => {
+        console.log("Page, " + page)
+        console.log("Value, " + value)
+        console.log("data shows length, " + data.shows.length)
         if (value === 0) {
             setPage(1)
             value = 1
@@ -67,7 +70,7 @@ function ShowsTable({value, sort}: Props) {
         if(value > 0 && value <= (pageCount)) {
             setPage(value)
             refetch({
-                offset: data.shows.length * (value - 1),
+                offset: (value - 1) * 12,
                 limit: 12,
             });
         }
