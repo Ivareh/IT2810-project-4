@@ -25,7 +25,7 @@ type Props = {
 
 }
 
-LogBox.ignoreLogs(['Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`']);
+const optionsPerPage = [2, 3, 4];
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -61,12 +61,17 @@ function ShowsTable({value, sort}: Props) {
      * Function to handle the pagination. Calls refetch with the new offset.
      */
     const handlePageNumberChange = (value: number) => {
-        setPage(value)
-        refetch({
-            offset: data.shows.length * (value - 1),
-            limit: 12,
-        });
-
+        if (value === 0) {
+            setPage(1)
+            value = 1
+        } 
+        if(value > 0 && value <= (pageCount)) {
+            setPage(value)
+            refetch({
+                offset: data.shows.length * (value - 1),
+                limit: 12,
+            });
+        }
     }
 
     if (error) return (
@@ -139,13 +144,6 @@ function ShowsTable({value, sort}: Props) {
         btnText: {textAlign: 'center', color: '#fff'}
     })
 
-    const dataArr: any = []
-    const tableHead = ['Type', 'Title', 'Release Year', 'Rating']
-
-    data.shows.forEach((show: IShow) => {
-        dataArr.push([show.type, show.title, show.release_year, show.rating])
-    })
-
     return (
         <>
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
@@ -193,9 +191,12 @@ function ShowsTable({value, sort}: Props) {
                     ))}
                     <DataTable.Pagination
                         page={page}
-                        numberOfPages={pageCount}
-                        onPageChange={(page) => handlePageNumberChange(page)}
+                        numberOfPages={pageCount+1}
+                        numberofItemsPerPageList={12}
+                        showFastPaginationControls
+                        onPageChange={(page : number) => handlePageNumberChange(page)} 
                         label={`${page} of ${pageCount}`}
+                        selectPageDropdownLabel={'Rows per page'}
                     />
 
                 </DataTable>
