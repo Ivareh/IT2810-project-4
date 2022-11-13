@@ -1,5 +1,8 @@
 import React from 'react';
 import Select from 'react-select';
+import {StyleSheet, Text, View} from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import {Picker} from "@react-native-picker/picker";
 
 
 const types = [
@@ -23,21 +26,46 @@ function SelectFilter({handleSelect}: props) {
         setSelectedOption(choice);
         handleSelect(choice.value);
     }
+    const styles = StyleSheet.create({
+        container: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "70%",
+            alignSelf: "center",
+        },
+        selectFilter: {
+            width: 200,
+            height: 25,
+            marginBottom: 10,
+
+        },
+        text : {
+            fontSize: 18,
+        }
+    })
 
 
     return (
-        <div id="selectFilterContainer">
-            <p tabIndex={0}>Select show type:</p>
-            <Select 
-                id="selectFilter"
+        <View
+            style={styles.container}
+            nativeID="selectFilterContainer">
+            <Text
+            style={styles.text}
+            >Select show type:</Text>
+            <Picker
+                style={styles.selectFilter}
+                nativeID={"selectFilter"}
                 aria-label='select show type'
-                value={selectedOption}
-                options={types}
-                onChange={(choice) => handleChange(choice as { label: string; value: string; })}
-            />
+                selectedValue={selectedOption}
+                onValueChange={(choice) => handleChange(choice as { label: string; value: string; })}
+            >
+                <Picker.Item label="All" value="" />
+                <Picker.Item label="Movies" value="Movie" />
+                <Picker.Item label="TV-shows" value="TV Show" />
 
-
-        </div>
+            </Picker>
+        </View>
     );
 }
 

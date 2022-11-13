@@ -1,4 +1,4 @@
-import {AppRegistry, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Header from "./components/Header";
 import NetflixList from "./components/NetflixList";
 import Footer from "./components/Footer";
@@ -7,7 +7,9 @@ import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        margin: 0,
+        padding: 0,
+        flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
@@ -45,6 +47,3 @@ export default function App() {
         </ApolloProvider>
     );
 }
-
-
-AppRegistry.registerComponent('MyApplication', () => App);

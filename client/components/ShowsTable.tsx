@@ -1,19 +1,15 @@
 import React, {useState} from "react";
-import {Grid, Pagination} from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {Pagination} from "@mui/material";
+// import Table from "@mui/material/Table";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import {StateContainer} from "./container/StateContainer";
 import CircularIndeterminate from "./container/CircularIndeterminate";
-import Rating from "@mui/material/Rating";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
+import {StyleSheet, Text, View} from "react-native";
+import {Table, Row, Rows} from 'react-native-table-component';
+import {LogBox} from "react-native";
 
 
 interface IShow {
@@ -31,6 +27,7 @@ type Props = {
 
 }
 
+LogBox.ignoreLogs(['Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`']);
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -57,8 +54,8 @@ function ShowsTable({value, sort}: Props) {
             sortReleaseYear: sort
         },
         onCompleted: data => {
-          setPageCount(Math.ceil(data.showsAggregate.count / 12))
-        } 
+            setPageCount(Math.ceil(data.showsAggregate.count / 12))
+        }
     });
 
     /**
@@ -116,26 +113,56 @@ function ShowsTable({value, sort}: Props) {
         }
 
     }
+    
 
+    const styles = StyleSheet.create({
+        table: {
+            width: "70%",
+            backgroundColor: "#fff",
+            marginTop: "20px",
+        },
+        info: {
+            width: "70%",
+            fontSize: "18px",
+        },
+        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+        head: { height: 40, backgroundColor: '#fff' },
+        text: { margin: 6 }
+    })
 
+    const dataArr: any = []
+    const tableHead = ['Title', 'Release Year', 'Director', 'Rating']
+
+    data.shows.forEach((show: IShow) => {
+        dataArr.push([show.title, show.release_year, show.director, show.rating])
+    })
+        
     return (
         <>
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
                                       handleClose={() => handleClose()}/>}
-            <div id="infotextContainer">
-                <p tabIndex={0}>
+            <View
+                style={styles.info}
+                nativeID="infotextContainer">
+                <Text>
                     {searchResult()}
-                </p>
-                <p tabIndex={0}> 
+                </Text>
+                <Text>
                     {searchCount === 0 ? "View and review Netflix shows below:" : "You have " +
-                    " reviewed " + searchCount + " Netflix shows in this session."}
-                </p>
-            </div>
-            
-            <Grid id="netflixList">
-                <TableContainer
+                        " reviewed " + searchCount + " Netflix shows in this session."}
+                </Text>
+            </View>
+
+            <View
+                style={styles.table}
+                nativeID="netflixList">
+                <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+                    <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+                    <Rows data={dataArr} textStyle={styles.text}/>
+                </Table>
+   {/*              <TableContainer
                     component={Paper}
-                    sx={{
+                    sx={{ 
                         marginLeft: "auto",
                         marginRight: "auto",
                         maxHeight: 700,
@@ -150,38 +177,39 @@ function ShowsTable({value, sort}: Props) {
                             <TableRow id="showtableHeader" tabIndex={0}>
                                 <TableCell
                                     align="center">Type</TableCell>
-                                <TableCell  align="center">Title</TableCell>
-                                <TableCell 
+                                <TableCell align="center">Title</TableCell>
+                                <TableCell
                                     align="center"
                                 >Release Year</TableCell>
                                 <TableCell
                                     align="center">Your rating</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody >
+                        <TableBody>
                             {Object.values(data.shows as IShow[]).flat().map((show) => (
                                 <TableRow id="showtableBody" tabIndex={0}
-                                    key={show.show_id}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {border: 0}
-                                    }}
-                                    onClick={() => {
-                                        handleOpen();
-                                        setShowId(show.show_id);
-                                    }}
-                                    onKeyUp={(e) => { 
-                                        if (e.key === "Enter" && !e.defaultPrevented) 
-                                        e.currentTarget.click(); }}
+                                          key={show.show_id}
+                                          sx={{
+                                              "&:last-child td, &:last-child th": {border: 0}
+                                          }}
+                                          onClick={() => {
+                                              handleOpen();
+                                              setShowId(show.show_id);
+                                          }}
+                                          onKeyUp={(e) => {
+                                              if (e.key === "Enter" && !e.defaultPrevented)
+                                                  e.currentTarget.click();
+                                          }}
 
                                 >
-                                    <TableCell 
+                                    <TableCell
                                         align="center"
                                         data-testid="c"
                                     >{show.type}</TableCell>
-                                    <TableCell 
+                                    <TableCell
                                         data-testid="title-cell"
                                         align="center">{show.title}</TableCell>
-                                    <TableCell 
+                                    <TableCell
                                         align="center">{show.release_year}</TableCell>
                                     <TableCell
                                         align="center"><Rating
@@ -198,13 +226,15 @@ function ShowsTable({value, sort}: Props) {
                             ))}
                         </TableBody>
                     </Table>
-                </TableContainer>
-                <Pagination id="tablepagenumbers"
-                            onChange={handlePageNumberChange}
-                            count={pageCount}
-                            color={"primary"}
+                </TableContainer> */}
+                <Pagination
+                    style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}
+                    id="tablepagenumbers"
+                    onChange={handlePageNumberChange}
+                    count={pageCount}
+                    color={"primary"}
                 />
-            </Grid>
+            </View>
         </>
 
 

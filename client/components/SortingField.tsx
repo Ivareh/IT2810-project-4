@@ -1,5 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
+import {StyleSheet, Text, View} from "react-native";
+import {Picker} from "@react-native-picker/picker";
 
 
 interface props {
@@ -10,6 +12,24 @@ const types = [
     {label: 'Release Year newest-oldest', value: 'DESC'},
     {label: 'Release Year oldest-newest', value: 'ASC'},
 ];
+const styles = StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "70%",
+        alignSelf: "center",
+    },
+    sortingField: {
+        width: 200,
+        height: 25,
+        marginBottom: 10,
+    },
+    text : {
+        fontSize: 18,
+    }
+})
+
 
 
 /**
@@ -26,18 +46,22 @@ export function SortingField({getSortType}: props) {
     }
 
     return (
-        <div id="sortingContainer">
-            <p tabIndex={0}>Sort by: </p>
-            <Select 
-                data-testid={"sort-release-year"}
-                id="sortFilter"
-                aria-label='sort shows'
-                value={selectedOption}
-                options={types}
-                onChange={(choice) => handleChange(choice as { label: string; value: string; })}
-            />
+        <View style={styles.container} nativeID={"sortingContainer"}>
+            <Text
+            style={styles.text}
+            >Sort by: </Text>
+            <Picker
+                style={styles.sortingField}
+                nativeID={"sortFilter"}
+                aria-label='select show type'
+                selectedValue={selectedOption}
+                onValueChange={(choice) => handleChange(choice as { label: string; value: string; })}
+            >
+                <Picker.Item label="Release Year newest-oldest" value="DESC" />
+                <Picker.Item label="Release Year oldest-newest" value="ASC" />
+            </Picker>
 
-        </div>
+        </View>
     )
 }
 
