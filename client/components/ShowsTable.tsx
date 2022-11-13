@@ -6,8 +6,8 @@ import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {StyleSheet, Text, View} from "react-native";
-import {Table, Row, Rows} from 'react-native-table-component';
+import {StyleSheet, Text, View, Pressable} from "react-native";
+import {Table, Row, TableWrapper, Rows, Cell} from 'react-native-table-component';
 import {LogBox} from "react-native";
 
 
@@ -120,9 +120,12 @@ function ShowsTable({value, sort}: Props) {
             width: "70%",
             fontSize: "18px",
         },
-        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
         head: { height: 40, backgroundColor: '#fff', textAlign: "center" },
         text: { margin: 6, textAlign: "center" },
+        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+        row: { flexDirection: 'row', backgroundColor: '#FFF1C1' },
+        btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 },
+        btnText: { textAlign: 'center', color: '#fff' }
     })
 
     const dataArr: any = []
@@ -153,7 +156,23 @@ function ShowsTable({value, sort}: Props) {
                 nativeID="netflixList">
                 <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                     <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-                    <Rows data={dataArr} textStyle={styles.text}/>
+                    {
+                        dataArr.map((rowData: any, index: any) => (
+                        <TableWrapper key={index} style={styles.row}>
+                            {
+                            rowData.map((cellData: any, cellIndex: any) => (
+                                <Cell key={cellIndex} data={cellIndex === 1 ? <Pressable
+                                    onPress={() => {
+                                        setShowId(cellData.show_id)
+                                        handleOpen()
+                                    }}
+                                />
+                            ))
+                        }
+                        </TableWrapper>
+
+                        ))
+                    }
                 </Table>
    {/*              <TableContainer
                     component={Paper}
