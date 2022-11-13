@@ -34,7 +34,7 @@ function ShowsTable({value, sort}: Props) {
     const [pageCount, setPageCount] = useState(1)
     const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0])
 
 
@@ -60,9 +60,6 @@ function ShowsTable({value, sort}: Props) {
      * Function to handle the pagination. Calls refetch with the new offset.
      */
     const handlePageNumberChange = (value: number) => {
-        console.log("Page, " + page)
-        console.log("Value, " + value)
-        console.log("data shows length, " + data.shows.length)
         if (value === 0) {
             setPage(1)
             value = 1

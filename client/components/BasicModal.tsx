@@ -73,7 +73,6 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
     return (
         <View style={styles.centeredView}>
             <Modal
-                animationType="slide"
                 transparent={true}
                 visible={isOpen}
                 onRequestClose={handleClose}
