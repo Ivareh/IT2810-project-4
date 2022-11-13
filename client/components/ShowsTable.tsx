@@ -1,20 +1,14 @@
 import React, {useState} from "react";
 import {Pagination} from "@mui/material";
 // import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
-import Rating from "@mui/material/Rating";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
 import {StyleSheet, Text, View} from "react-native";
 import {Table, Row, Rows} from 'react-native-table-component';
+import {LogBox} from "react-native";
 
 
 interface IShow {
@@ -31,6 +25,8 @@ type Props = {
     sort: string;
 
 }
+
+LogBox.ignoreLogs(['Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`']);
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -113,17 +109,11 @@ function ShowsTable({value, sort}: Props) {
 
     }
     
-    // Converts the data to a format that is compatible with the table component. From https://stackoverflow.com/questions/22477612/converting-array-of-objects-into-array-of-arrays
-    var dataOutput = data.shows.map(function(obj: any) {
-        return Object.keys(obj).slice(2).map(function(key) { 
-          return obj[key];
-        });
-      });
 
     const styles = StyleSheet.create({
         table: {
             width: "70%",
-            backgroundColor: "white",
+            backgroundColor: "#fff",
             marginTop: "20px",
         },
         info: {
@@ -131,14 +121,19 @@ function ShowsTable({value, sort}: Props) {
             fontSize: "18px",
         },
         container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-        head: { height: 40, backgroundColor: '#f1f8ff' },
+        head: { height: 40, backgroundColor: '#fff' },
         text: { margin: 6 }
     })
 
+    const dataArr: any = []
+    const tableHead = ['Title', 'Release Year', 'Director', 'Rating']
+
+    data.shows.forEach((show: IShow) => {
+        dataArr.push([show.title, show.release_year, show.director, show.rating])
+    })
+        
     return (
         <>
-        {console.log(data.shows)}
-            {console.log(dataOutput)}
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
                                       handleClose={() => handleClose()}/>}
             <View
@@ -157,12 +152,12 @@ function ShowsTable({value, sort}: Props) {
                 style={styles.table}
                 nativeID="netflixList">
                 <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-                    <Row data={Object.keys(data.shows[0]).slice(2)} style={styles.head} textStyle={styles.text}/>
-                    <Rows data={dataOutput} textStyle={styles.text}/>
+                    <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+                    <Rows data={dataArr} textStyle={styles.text}/>
                 </Table>
    {/*              <TableContainer
                     component={Paper}
-                    sx={{
+                    sx={{ 
                         marginLeft: "auto",
                         marginRight: "auto",
                         maxHeight: 700,
