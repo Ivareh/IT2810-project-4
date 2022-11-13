@@ -120,16 +120,16 @@ function ShowsTable({value, sort}: Props) {
             width: "70%",
             fontSize: "18px",
         },
-        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-        head: { height: 40, backgroundColor: '#fff' },
-        text: { margin: 6 }
+        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff'},
+        head: { height: 40, backgroundColor: '#fff', textAlign: "center" },
+        text: { margin: 6, textAlign: "center" },
     })
 
     const dataArr: any = []
-    const tableHead = ['Title', 'Release Year', 'Director', 'Rating']
+    const tableHead = ['Type', 'Title', 'Release Year', 'Rating']
 
     data.shows.forEach((show: IShow) => {
-        dataArr.push([show.title, show.release_year, show.director, show.rating])
+        dataArr.push([show.type, show.title, show.release_year, show.rating])
     })
         
     return (
