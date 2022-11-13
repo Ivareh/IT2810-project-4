@@ -124,6 +124,7 @@ export default function RatingForm({
             style={styles.container}
         >
             <Rating
+                jumpValue={1}
                 data-testid={'review-rating'}
                 aria-label="review_rating"
                 showRating

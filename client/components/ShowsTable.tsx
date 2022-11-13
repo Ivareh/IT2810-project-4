@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-// import Table from "@mui/material/Table";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
@@ -24,7 +23,6 @@ type Props = {
     sort: string;
 
 }
-
 const optionsPerPage = [2, 3, 4];
 
 /**
@@ -36,7 +34,8 @@ function ShowsTable({value, sort}: Props) {
     const [pageCount, setPageCount] = useState(1)
     const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
+    const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0])
 
 
     /**
@@ -124,7 +123,7 @@ function ShowsTable({value, sort}: Props) {
         },
         info: {
             width: "70%",
-            fontSize: "18px",
+            fontSize: 19,
         },
         head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
         text: {margin: 6, textAlign: "center"},
@@ -165,7 +164,8 @@ function ShowsTable({value, sort}: Props) {
                 nativeID="netflixList">
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title>Type</DataTable.Title>
+                        <DataTable.Title
+                            style={styles.info}>Type</DataTable.Title>
                         <DataTable.Title>Title</DataTable.Title>
                         <DataTable.Title>Release Year</DataTable.Title>
                         <DataTable.Title>Rating</DataTable.Title>
@@ -181,9 +181,12 @@ function ShowsTable({value, sort}: Props) {
                             <DataTable.Cell>{show.title}</DataTable.Cell>
                             <DataTable.Cell>{show.release_year}</DataTable.Cell>
                             <DataTable.Cell><Rating
+                                jumpValue={1}
+                                readonly={true}
+                                showReadOnlyText={false}
+                                imageSize={20}
                                 showRating
                                 startingValue={show.rating}
-                                style={{paddingVertical: 10}}
                             /></DataTable.Cell>
                         </DataTable.Row>
 
