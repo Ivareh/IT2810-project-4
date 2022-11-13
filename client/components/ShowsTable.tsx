@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import {Pagination} from "@mui/material";
 // import Table from "@mui/material/Table";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {StyleSheet, Text, View, Pressable} from "react-native";
-import {Table, Row, TableWrapper, Rows, Cell} from 'react-native-table-component';
-import {LogBox} from "react-native";
+import {LogBox, StyleSheet, Text, View} from "react-native";
+import {DataTable} from 'react-native-paper';
+import {Rating} from 'react-native-ratings';
 
 
 interface IShow {
@@ -37,6 +36,7 @@ function ShowsTable({value, sort}: Props) {
     const [pageCount, setPageCount] = useState(1)
     const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
+    const [page, setPage] = useState(1)
 
 
     /**
@@ -60,7 +60,8 @@ function ShowsTable({value, sort}: Props) {
     /**
      * Function to handle the pagination. Calls refetch with the new offset.
      */
-    const handlePageNumberChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const handlePageNumberChange = (value: number) => {
+        setPage(value)
         refetch({
             offset: data.shows.length * (value - 1),
             limit: 12,
@@ -108,7 +109,7 @@ function ShowsTable({value, sort}: Props) {
         }
 
     }
-    
+
 
     const styles = StyleSheet.create({
         table: {
@@ -120,12 +121,22 @@ function ShowsTable({value, sort}: Props) {
             width: "70%",
             fontSize: "18px",
         },
-        head: { height: 40, backgroundColor: '#fff', textAlign: "center" },
-        text: { margin: 6, textAlign: "center" },
-        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-        row: { flexDirection: 'row', backgroundColor: '#FFF1C1' },
-        btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 },
-        btnText: { textAlign: 'center', color: '#fff' }
+        head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
+        text: {margin: 6, textAlign: "center"},
+        container: {
+            flex: 1,
+            padding: 16,
+            paddingTop: 30,
+            backgroundColor: '#fff'
+        },
+        row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
+        btn: {
+            width: 58,
+            height: 18,
+            backgroundColor: '#78B7BB',
+            borderRadius: 2
+        },
+        btnText: {textAlign: 'center', color: '#fff'}
     })
 
     const dataArr: any = []
@@ -134,7 +145,7 @@ function ShowsTable({value, sort}: Props) {
     data.shows.forEach((show: IShow) => {
         dataArr.push([show.type, show.title, show.release_year, show.rating])
     })
-        
+
     return (
         <>
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
@@ -154,110 +165,44 @@ function ShowsTable({value, sort}: Props) {
             <View
                 style={styles.table}
                 nativeID="netflixList">
-                <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-                    <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-                    {
-                        dataArr.map((rowData: any, index: any) => (
-                        <TableWrapper key={index} style={styles.row}>
-                            {
-                            rowData.map((cellData: any, cellIndex: any) => (
-                                <Cell key={cellIndex} data={cellIndex === 1 ? <Pressable
-                                    onPress={() => {
-                                        setShowId(cellData.show_id)
-                                        handleOpen()
-                                    }}
-                                />
-                            ))
-                        }
-                        </TableWrapper>
+                <DataTable>
+                    <DataTable.Header>
+                        <DataTable.Title>Type</DataTable.Title>
+                        <DataTable.Title>Title</DataTable.Title>
+                        <DataTable.Title>Release Year</DataTable.Title>
+                        <DataTable.Title>Rating</DataTable.Title>
+                    </DataTable.Header>
 
-                        ))
-                    }
-                </Table>
-   {/*              <TableContainer
-                    component={Paper}
-                    sx={{ 
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        maxHeight: 700,
-                        minWidth: '375px'
-                    }}
-                >
+                    {Object.values(data.shows as IShow[]).flat().map((show) => (
+                        <DataTable.Row key={show.show_id} onPress={() => {
+                            handleOpen();
+                            setShowId(show.show_id);
+                        }}
+                        >
+                            <DataTable.Cell>{show.type}</DataTable.Cell>
+                            <DataTable.Cell>{show.title}</DataTable.Cell>
+                            <DataTable.Cell>{show.release_year}</DataTable.Cell>
+                            <DataTable.Cell><Rating
+                                showRating
+                                startingValue={show.rating}
+                                style={{paddingVertical: 10}}
+                            /></DataTable.Cell>
+                        </DataTable.Row>
 
-                    <Table id="netflixTable" aria-label="simple table"
-                           sx={{minWidth: '375px', tableLayout: 'fixed'}}
-                           stickyHeader>
-                        <TableHead>
-                            <TableRow id="showtableHeader" tabIndex={0}>
-                                <TableCell
-                                    align="center">Type</TableCell>
-                                <TableCell align="center">Title</TableCell>
-                                <TableCell
-                                    align="center"
-                                >Release Year</TableCell>
-                                <TableCell
-                                    align="center">Your rating</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {Object.values(data.shows as IShow[]).flat().map((show) => (
-                                <TableRow id="showtableBody" tabIndex={0}
-                                          key={show.show_id}
-                                          sx={{
-                                              "&:last-child td, &:last-child th": {border: 0}
-                                          }}
-                                          onClick={() => {
-                                              handleOpen();
-                                              setShowId(show.show_id);
-                                          }}
-                                          onKeyUp={(e) => {
-                                              if (e.key === "Enter" && !e.defaultPrevented)
-                                                  e.currentTarget.click();
-                                          }}
 
-                                >
-                                    <TableCell
-                                        align="center"
-                                        data-testid="c"
-                                    >{show.type}</TableCell>
-                                    <TableCell
-                                        data-testid="title-cell"
-                                        align="center">{show.title}</TableCell>
-                                    <TableCell
-                                        align="center">{show.release_year}</TableCell>
-                                    <TableCell
-                                        align="center"><Rating
-                                        sx={{
-                                            justifyContent: 'center'
-                                        }}
-                                        size={"small"}
-                                        name="read-only"
-                                        readOnly
-                                        aria-label="rating"
-                                        value={show.rating}
-                                    /></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer> */}
-                <Pagination
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        marginTop: '20px'
-                    }}
-                    id="tablepagenumbers"
-                    onChange={handlePageNumberChange}
-                    count={pageCount}
-                    color={"primary"}
-                />
+                    ))}
+                    <DataTable.Pagination
+                        page={page}
+                        numberOfPages={pageCount}
+                        onPageChange={(page) => handlePageNumberChange(page)}
+                        label={`${page} of ${pageCount}`}
+                    />
+
+                </DataTable>
+
             </View>
         </>
-
-
     )
 }
-
 
 export default ShowsTable;
