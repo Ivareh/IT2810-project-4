@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
+import {Rating} from 'react-native-ratings';
 import {gql, useMutation} from "@apollo/client";
 import {ADD_REVIEW} from "../schemas/Queries";
 import {reviewCount} from "./globalVariables";
@@ -124,25 +123,19 @@ export default function RatingForm({
         <View
             style={styles.container}
         >
-            <Typography component="legend" id="myRatingInModalText"
-                        sx={{
-                            textAlign: 'center',
-                            marginTop: '20px'
-                        }}>Rating</Typography>
             <Rating
-                sx={{
-                    justifyContent: 'center'
-                }}
                 data-testid={'review-rating'}
-                name="simple-controlled"
                 aria-label="review_rating"
-                value={value}
-                onChange={(event, newValue) => {
+                showRating
+                onFinishRating={(newValue: React.SetStateAction<number | null>) => {
                     setDidExecute(false)
                     setValue(newValue);
                     setIsValueValid(true)
                 }}
+                style={{paddingVertical: 10}}
             />
+
+
             <TextInput
                 style={{
                     borderStyle: 'solid',
