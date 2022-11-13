@@ -184,6 +184,9 @@ function ShowsTable({value, sort}: Props) {
                             <DataTable.Cell>{show.title}</DataTable.Cell>
                             <DataTable.Cell>{show.release_year}</DataTable.Cell>
                             <DataTable.Cell><Rating
+                                ratingTextColor={"white"}
+                                type='custom'
+                                style={{}}
                                 jumpValue={1}
                                 readonly={true}
                                 showReadOnlyText={false}
