@@ -15,7 +15,6 @@
     "@expo/webpack-config": "^0.17.2",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.13",
-    "@react-native-community/picker": "^1.8.1",
     "@react-native-picker/picker": "^2.4.8",
     "expo": "~47.0.3",
     "expo-status-bar": "~1.4.2",
