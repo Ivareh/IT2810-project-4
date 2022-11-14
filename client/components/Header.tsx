@@ -10,22 +10,32 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         backgroundPosition: 'center-center',
+        alignContent: "center",
         background: "no-repeat fixed",
+        height: 200,
+        padding:10,
     },
     mainText: {
         color: "white",
-        fontSize: 42,
-        lineHeight: 84,
+        fontSize: 25,
+        lineHeight: 45,
+        marginBottom: 30,
         fontWeight: "bold",
         textAlign: "center",
     },
     logo: {
         fontWeight: "bold",
-        fontSize: 25,
+        fontSize: 15,
         color: "white",
         marginLeft: 20,
         textAlign: "left"
-
+    },
+    logoContainer: {
+      backgroundColor: "black",          
+      display: "flex",
+      justifyContent: "center",
+      height:30,
+      width: "100%",
     }
 });
 
@@ -40,13 +50,7 @@ const Header = () => {
         <>
             <View
                 nativeID="navMenu"
-                style={{
-                    backgroundColor: "black",
-                    height: 50,
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                }}
+                style={styles.logoContainer}
             >
                 <Text style={styles.logo}>NETFLIX LIBRARY</Text>
 
