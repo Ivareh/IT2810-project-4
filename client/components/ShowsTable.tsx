@@ -104,32 +104,27 @@ function ShowsTable({value, sort}: Props) {
     // Updating global variable.
     if (searchWord === "") {
         if (value == "") {
-            searchResult(`Showing all results. Displaying both Movies and TV-shows. Ordered by ${sort}.`)
-        } else {
-            searchResult(`Showing all results. Displaying only ${value}s. Ordered by ${sort}.`)
+            searchResult(`Showing all results`)
         }
-
     } else {
         if (value == "") {
-            searchResult(`Showing results for "${searchWord}". Showing both movies and series.
-           Ordered by ${sort}.`)
-        } else {
-            searchResult(`Showing results for "${searchWord}". Showing only ${value}s.
-           Ordered by ${sort}.`)
-        }
-
+            searchResult(`Showing results for "${searchWord}".`)
+        } 
     }
 
 
     const styles = StyleSheet.create({
         table: {
-            width: "70%",
+            width: "90%",
             backgroundColor: "#fff",
-            marginTop: 20,
         },
         info: {
-            width: "70%",
-            fontSize: 19,
+          marginTop: 20,
+          width: "70%",
+          flex: 1,
+          flexDirection: 'column',
+          columnGap: 10,
+          fontSize: 19,
         },
         head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
         text: {margin: 6, textAlign: "center"},
@@ -146,7 +141,7 @@ function ShowsTable({value, sort}: Props) {
             backgroundColor: '#78B7BB',
             borderRadius: 2
         },
-        btnText: {textAlign: 'center', color: '#fff'}
+        btnText: {textAlign: 'center', color: '#fff'},
     })
 
     return (
@@ -159,19 +154,14 @@ function ShowsTable({value, sort}: Props) {
                 <Text>
                     {searchResult()}
                 </Text>
-                <Text>
-                    {searchCount === 0 ? "View and review Netflix shows below:" : "You have " +
-                        " reviewed " + searchCount + " Netflix shows in this session."}
-                </Text>
             </View>
 
-            <ScrollView
+            <View
                 style={styles.table}
                 nativeID="netflixList">
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title
-                            style={styles.info}>Type</DataTable.Title>
+                        <DataTable.Title>Type</DataTable.Title>
                         <DataTable.Title>Title</DataTable.Title>
                         <DataTable.Title>Release Year</DataTable.Title>
                         <DataTable.Title>Rating</DataTable.Title>
@@ -203,6 +193,7 @@ function ShowsTable({value, sort}: Props) {
                     ))}
                     <DataTable.Pagination
                         page={page}
+                        style={styles.pagination}
                         numberOfPages={pageCount + 1}
                         numberOfItemsPerPage={12}
                         showFastPaginationControls
@@ -213,7 +204,7 @@ function ShowsTable({value, sort}: Props) {
 
                 </DataTable>
 
-            </ScrollView>
+            </View>
         </>
     )
 }
