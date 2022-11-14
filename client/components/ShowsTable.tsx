@@ -4,7 +4,7 @@ import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, ScrollView} from "react-native";
 import {DataTable} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
 
@@ -77,10 +77,6 @@ function ShowsTable({value, sort}: Props) {
             });
         }
     }
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
 
     if (error) return (
         <Text data-testid={"error-p"}>Error! {error.message} </Text>
@@ -108,32 +104,28 @@ function ShowsTable({value, sort}: Props) {
     // Updating global variable.
     if (searchWord === "") {
         if (value == "") {
-            searchResult(`Showing all results. Displaying both Movies and TV-shows. Ordered by ${sort}.`)
-        } else {
-            searchResult(`Showing all results. Displaying only ${value}s. Ordered by ${sort}.`)
+            searchResult(`Showing all results`)
         }
-
     } else {
         if (value == "") {
-            searchResult(`Showing results for "${searchWord}". Showing both movies and series.
-           Ordered by ${sort}.`)
-        } else {
-            searchResult(`Showing results for "${searchWord}". Showing only ${value}s.
-           Ordered by ${sort}.`)
-        }
-
+            searchResult(`Showing results for "${searchWord}".`)
+        } 
     }
 
 
     const styles = StyleSheet.create({
         table: {
+            width: "80%",
             backgroundColor: "#fff",
             marginTop: 20,
-            width: "80%",
         },
         info: {
-            width: "70%",
-            fontSize: 19,
+          marginTop: 20,
+          width: "70%",
+          flex: 1,
+          flexDirection: 'column',
+          columnGap: 10,
+          fontSize: 19,
         },
         head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
         text: {margin: 6, textAlign: "center"},
@@ -150,7 +142,7 @@ function ShowsTable({value, sort}: Props) {
             backgroundColor: '#78B7BB',
             borderRadius: 2
         },
-        btnText: {textAlign: 'center', color: '#fff'}
+        btnText: {textAlign: 'center', color: '#fff'},
     })
 
     return (
@@ -162,10 +154,6 @@ function ShowsTable({value, sort}: Props) {
                 nativeID="infotextContainer">
                 <Text>
                     {searchResult()}
-                </Text>
-                <Text>
-                    {searchCount === 0 ? "View and review Netflix shows below:" : "You have " +
-                        " reviewed " + searchCount + " Netflix shows in this session."}
                 </Text>
             </View>
 

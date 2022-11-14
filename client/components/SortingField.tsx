@@ -15,18 +15,20 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
+        alignContent: "center",
         justifyContent: "space-between",
         width: "70%",
         alignSelf: "center",
+        marginBottom: 20,
     },
     sortingField: {
         minWidth: 150,
         height: 25,
-        marginBottom: 10,
         fontSize: 18
     },
     text : {
-        fontSize: 18,
+        fontSize: 14,
     }
 })
 

@@ -1,19 +1,16 @@
+import React from "react";
 import {StyleSheet, Text, View} from "react-native";
 
 const styles = StyleSheet.create({
     footer: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "nowrap",
-        marginTop: 20,
-        justifyContent: 'space-evenly',
-        marginBottom: 20,
+        width: "80%",
+        
     },
     text: {
         textAlign: 'center',
         letterSpacing: 1,
-        fontSize: 18,
+        fontSize: 10,
+        marginBottom: 5,
     }
 })
 

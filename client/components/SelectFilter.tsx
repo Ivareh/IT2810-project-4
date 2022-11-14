@@ -21,19 +21,17 @@ function SelectFilter({handleSelect}: props) {
         container: {
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
+            alignContent: "center",
             justifyContent: "space-between",
             width: "70%",
             alignSelf: "center",
         },
         selectFilter: {
             minWidth: 150,
-            height: 25,
-            marginBottom: 10,
-            fontSize: 18
-
         },
         text: {
-            fontSize: 18,
+            fontSize: 14,
         }
     })
 

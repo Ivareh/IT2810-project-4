@@ -1,8 +1,9 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import Header from "./components/Header";
 import NetflixList from "./components/NetflixList";
 import Footer from "./components/Footer";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import React from 'react';
 
 
 const styles = StyleSheet.create({
@@ -11,8 +12,10 @@ const styles = StyleSheet.create({
         padding: 0,
         flexDirection: 'column',
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+    },
+    contentContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 });
 
@@ -39,11 +42,11 @@ const client = new ApolloClient({
 export default function App() {
     return (
         <ApolloProvider client={client}>
-            <View style={styles.container}>
+            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                 <Header/>
                 <NetflixList/>
                 <Footer/>
-            </View>
+            </ScrollView>
         </ApolloProvider>
     );
 }
