@@ -1,5 +1,4 @@
 import React from 'react';
-import Select from 'react-select';
 import {StyleSheet, Text, View} from "react-native";
 import {Picker} from "@react-native-picker/picker";
 

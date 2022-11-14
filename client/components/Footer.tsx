@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         flexWrap: "nowrap",
-        marginTop: '20px',
+        marginTop: 20,
         justifyContent: 'space-evenly',
-        marginBottom: '20px',
+        marginBottom: 20,
     },
     text: {
         textAlign: 'center',
@@ -34,15 +34,9 @@ const Footer = () => {
             <View
                 style={{justifyContent: "space-evenly"}}
             >
-                <Text style={styles.text}> Check us out on{' '}
-                    <a
-                        href="https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3"
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{color: 'blue'}}
-                    >
-                        GitLab
-                    </a></Text>
+                <Text style={styles.text}> Check us out on
+                    https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3
+                </Text>
             </View>
 
         </View>

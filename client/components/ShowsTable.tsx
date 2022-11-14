@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {LogBox, StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {DataTable} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
 
@@ -21,7 +21,13 @@ interface IShow {
 type Props = {
     value: string;
     sort: string;
+}
 
+type DataFromQuery = {
+    shows: IShow[];
+    showsAggregate: {
+        count: number;
+    }
 }
 const optionsPerPage = [2, 3, 4];
 
@@ -35,7 +41,6 @@ function ShowsTable({value, sort}: Props) {
     const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
     const [page, setPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0])
 
 
     /**
@@ -44,7 +49,7 @@ function ShowsTable({value, sort}: Props) {
      * @param value The value which is used to filter the data.
      * @param sort The sort type which is used to sort the data.
      */
-    const {error, loading, data, refetch} = useQuery(FEED_SORT_TABLE_SHOWS, {
+    const {error, loading, data, refetch} = useQuery<DataFromQuery>(FEED_SORT_TABLE_SHOWS, {
         variables: {
             offset: 0,
             limit: 12,
@@ -63,8 +68,8 @@ function ShowsTable({value, sort}: Props) {
         if (value === 0) {
             setPage(1)
             value = 1
-        } 
-        if(value > 0 && value <= (pageCount)) {
+        }
+        if (value > 0 && value <= (pageCount)) {
             setPage(value)
             refetch({
                 offset: (value - 1) * 12,
@@ -72,14 +77,19 @@ function ShowsTable({value, sort}: Props) {
             });
         }
     }
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
 
     if (error) return (
-        <p data-testid={"error-p"}>Error! {error.message} </p>
+        <Text data-testid={"error-p"}>Error! {error.message} </Text>
     )
 
     if (loading) return (
         <CircularIndeterminate/>
     )
+
 
     function handleClose() {
         setModalOpen(false)
@@ -89,10 +99,10 @@ function ShowsTable({value, sort}: Props) {
         setModalOpen(true)
     }
 
-    if (data.shows.length === 0) {
+    if (data?.shows?.length === 0) {
         return (
-            <h2 style={{marginTop: '20px'}}>No results found for
-                "{searchTerm()}"</h2>)
+            <Text>No results found for
+                "{searchTerm()}"</Text>)
     }
 
     // Updating global variable.
@@ -119,7 +129,7 @@ function ShowsTable({value, sort}: Props) {
         table: {
             width: "70%",
             backgroundColor: "#fff",
-            marginTop: "20px",
+            marginTop: 20,
         },
         info: {
             width: "70%",
@@ -171,7 +181,7 @@ function ShowsTable({value, sort}: Props) {
                         <DataTable.Title>Rating</DataTable.Title>
                     </DataTable.Header>
 
-                    {Object.values(data.shows as IShow[]).flat().map((show) => (
+                    {Object.values(data?.shows as IShow[]).flat().map((show) => (
                         <DataTable.Row key={show.show_id} onPress={() => {
                             handleOpen();
                             setShowId(show.show_id);
@@ -197,10 +207,10 @@ function ShowsTable({value, sort}: Props) {
                     ))}
                     <DataTable.Pagination
                         page={page}
-                        numberOfPages={pageCount+1}
-                        numberofItemsPerPageList={12}
+                        numberOfPages={pageCount + 1}
+                        numberOfItemsPerPage={12}
                         showFastPaginationControls
-                        onPageChange={(page : number) => handlePageNumberChange(page)} 
+                        onPageChange={(page: number) => handlePageNumberChange(page)}
                         label={`${page} of ${pageCount}`}
                         selectPageDropdownLabel={'Rows per page'}
                     />

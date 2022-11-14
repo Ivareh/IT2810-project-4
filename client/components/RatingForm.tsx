@@ -78,7 +78,7 @@ export default function RatingForm({
     }
 
 
-    if (error) return <p>Error! {error.message}</p>;
+    if (error) return <Text>Error! {error.message}</Text>;
 
     const styles = StyleSheet.create({
         container: {

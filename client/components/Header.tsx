@@ -5,7 +5,6 @@ const image = require('../assets/images/theatreBackground.webp');
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: '50vh',
     },
     image: {
         flex: 1,
@@ -21,7 +20,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     logo: {
-        fontFamily: "Zen Tokyo Zoo",
         fontWeight: "bold",
         fontSize: 25,
         color: "white",
