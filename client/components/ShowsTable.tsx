@@ -4,7 +4,7 @@ import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, ScrollView} from "react-native";
 import {DataTable} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
 
@@ -165,7 +165,7 @@ function ShowsTable({value, sort}: Props) {
                 </Text>
             </View>
 
-            <View
+            <ScrollView
                 style={styles.table}
                 nativeID="netflixList">
                 <DataTable>
@@ -213,7 +213,7 @@ function ShowsTable({value, sort}: Props) {
 
                 </DataTable>
 
-            </View>
+            </ScrollView>
         </>
     )
 }
