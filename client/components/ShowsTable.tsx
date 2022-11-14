@@ -77,10 +77,6 @@ function ShowsTable({value, sort}: Props) {
             });
         }
     }
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
 
     if (error) return (
         <Text data-testid={"error-p"}>Error! {error.message} </Text>
