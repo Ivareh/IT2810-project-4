@@ -115,8 +115,9 @@ function ShowsTable({value, sort}: Props) {
 
     const styles = StyleSheet.create({
         table: {
-            width: "70%",
+            width: "80%",
             backgroundColor: "#fff",
+            marginTop: 20,
         },
         info: {
           marginTop: 20,
@@ -161,31 +162,40 @@ function ShowsTable({value, sort}: Props) {
                 nativeID="netflixList">
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title>Title</DataTable.Title>
-                        <DataTable.Title>Rating</DataTable.Title>
+                        <DataTable.Title
+
+                            textStyle={{width: 200}}>Title</DataTable.Title>
+                        <DataTable.Title style={{marginLeft: 50}} numeric>Release Year</DataTable.Title>
+                        <DataTable.Title numeric>Rating</DataTable.Title>
                     </DataTable.Header>
 
                     {Object.values(data?.shows as IShow[]).flat().map((show) => (
-                        <DataTable.Row key={show.show_id} onPress={() => {
+                        <DataTable.Row
+                            style={{width: 'auto'}}
+                            key={show.show_id} onPress={() => {
                             handleOpen();
                             setShowId(show.show_id);
                         }}
                         >
-                            <DataTable.Cell>{show.title}</DataTable.Cell>
-                            <DataTable.Cell><Rating
+                            <DataTable.Cell
+                                textStyle={{width: 150}}
+
+                            >{show.title}</DataTable.Cell>
+                            <DataTable.Cell numeric>{show.release_year}</DataTable.Cell>
+                            <DataTable.Cell numeric><Rating
                                 jumpValue={1}
+                                ratingCount={1}
                                 readonly={true}
                                 showReadOnlyText={false}
                                 imageSize={20}
                                 startingValue={show.rating}
-                            /></DataTable.Cell>
+                            /> {show.rating}</DataTable.Cell>
                         </DataTable.Row>
 
 
                     ))}
                     <DataTable.Pagination
                         page={page}
-                        style={styles.pagination}
                         numberOfPages={pageCount + 1}
                         numberOfItemsPerPage={12}
                         showFastPaginationControls
