@@ -115,7 +115,7 @@ function ShowsTable({value, sort}: Props) {
 
     const styles = StyleSheet.create({
         table: {
-            width: "90%",
+            width: "70%",
             backgroundColor: "#fff",
         },
         info: {
@@ -161,9 +161,7 @@ function ShowsTable({value, sort}: Props) {
                 nativeID="netflixList">
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title>Type</DataTable.Title>
                         <DataTable.Title>Title</DataTable.Title>
-                        <DataTable.Title>Release Year</DataTable.Title>
                         <DataTable.Title>Rating</DataTable.Title>
                     </DataTable.Header>
 
@@ -173,18 +171,12 @@ function ShowsTable({value, sort}: Props) {
                             setShowId(show.show_id);
                         }}
                         >
-                            <DataTable.Cell>{show.type}</DataTable.Cell>
                             <DataTable.Cell>{show.title}</DataTable.Cell>
-                            <DataTable.Cell>{show.release_year}</DataTable.Cell>
                             <DataTable.Cell><Rating
-                                ratingTextColor={"white"}
-                                type='custom'
-                                style={{}}
                                 jumpValue={1}
                                 readonly={true}
                                 showReadOnlyText={false}
                                 imageSize={20}
-                                showRating
                                 startingValue={show.rating}
                             /></DataTable.Cell>
                         </DataTable.Row>
