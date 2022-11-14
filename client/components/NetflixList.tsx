@@ -16,10 +16,12 @@ export default function NetflixList() {
 
     function getSortType(sortTerm: string) {
         setSort(sortTerm)
+        console.log(sortTerm)
     }
 
     function handleSelect(value: any) {
         setValue(value)
+        console.log(value)
     }
 
     const styles = StyleSheet.create({

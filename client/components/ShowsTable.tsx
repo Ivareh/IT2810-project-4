@@ -1,15 +1,12 @@
-import React, {useState} from "react";
-import {Pagination} from "@mui/material";
-// import Table from "@mui/material/Table";
+import React, {useEffect, useState} from "react";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
-import {StateContainer} from "./container/StateContainer";
 import CircularIndeterminate from "./container/CircularIndeterminate";
 import {reviewCount, searchResult, searchTerm} from "./globalVariables";
 import {StyleSheet, Text, View} from "react-native";
-import {Table, Row, Rows} from 'react-native-table-component';
-import {LogBox} from "react-native";
+import {DataTable} from 'react-native-paper';
+import {Rating} from 'react-native-ratings';
 
 
 interface IShow {
@@ -24,10 +21,15 @@ interface IShow {
 type Props = {
     value: string;
     sort: string;
-
 }
 
-LogBox.ignoreLogs(['Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`']);
+type DataFromQuery = {
+    shows: IShow[];
+    showsAggregate: {
+        count: number;
+    }
+}
+const optionsPerPage = [2, 3, 4];
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -38,6 +40,7 @@ function ShowsTable({value, sort}: Props) {
     const [pageCount, setPageCount] = useState(1)
     const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
+    const [page, setPage] = useState(1)
 
 
     /**
@@ -46,7 +49,7 @@ function ShowsTable({value, sort}: Props) {
      * @param value The value which is used to filter the data.
      * @param sort The sort type which is used to sort the data.
      */
-    const {error, loading, data, refetch} = useQuery(FEED_SORT_TABLE_SHOWS, {
+    const {error, loading, data, refetch} = useQuery<DataFromQuery>(FEED_SORT_TABLE_SHOWS, {
         variables: {
             offset: 0,
             limit: 12,
@@ -61,25 +64,32 @@ function ShowsTable({value, sort}: Props) {
     /**
      * Function to handle the pagination. Calls refetch with the new offset.
      */
-    const handlePageNumberChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        refetch({
-            offset: data.shows.length * (value - 1),
-            limit: 12,
-        });
-
+    const handlePageNumberChange = (value: number) => {
+        if (value === 0) {
+            setPage(1)
+            value = 1
+        }
+        if (value > 0 && value <= (pageCount)) {
+            setPage(value)
+            refetch({
+                offset: (value - 1) * 12,
+                limit: 12,
+            });
+        }
     }
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
 
     if (error) return (
-        <StateContainer>
-            <p data-testid={"error-p"}>Error! {error.message} </p>
-        </StateContainer>
+        <Text data-testid={"error-p"}>Error! {error.message} </Text>
     )
 
     if (loading) return (
-        <StateContainer>
-            <CircularIndeterminate/>
-        </StateContainer>
+        <CircularIndeterminate/>
     )
+
 
     function handleClose() {
         setModalOpen(false)
@@ -89,10 +99,10 @@ function ShowsTable({value, sort}: Props) {
         setModalOpen(true)
     }
 
-    if (data.shows.length === 0) {
+    if (data?.shows?.length === 0) {
         return (
-            <h2 style={{marginTop: '20px'}}>No results found for
-                "{searchTerm()}"</h2>)
+            <Text>No results found for
+                "{searchTerm()}"</Text>)
     }
 
     // Updating global variable.
@@ -113,30 +123,36 @@ function ShowsTable({value, sort}: Props) {
         }
 
     }
-    
+
 
     const styles = StyleSheet.create({
         table: {
             width: "70%",
             backgroundColor: "#fff",
-            marginTop: "20px",
+            marginTop: 20,
         },
         info: {
             width: "70%",
-            fontSize: "18px",
+            fontSize: 19,
         },
-        container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-        head: { height: 40, backgroundColor: '#fff' },
-        text: { margin: 6 }
+        head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
+        text: {margin: 6, textAlign: "center"},
+        container: {
+            flex: 1,
+            padding: 16,
+            paddingTop: 30,
+            backgroundColor: '#fff'
+        },
+        row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
+        btn: {
+            width: 58,
+            height: 18,
+            backgroundColor: '#78B7BB',
+            borderRadius: 2
+        },
+        btnText: {textAlign: 'center', color: '#fff'}
     })
 
-    const dataArr: any = []
-    const tableHead = ['Title', 'Release Year', 'Director', 'Rating']
-
-    data.shows.forEach((show: IShow) => {
-        dataArr.push([show.title, show.release_year, show.director, show.rating])
-    })
-        
     return (
         <>
             {modalOpen && <BasicModal show_id={showId} isOpen={modalOpen}
@@ -156,90 +172,54 @@ function ShowsTable({value, sort}: Props) {
             <View
                 style={styles.table}
                 nativeID="netflixList">
-                <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-                    <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-                    <Rows data={dataArr} textStyle={styles.text}/>
-                </Table>
-   {/*              <TableContainer
-                    component={Paper}
-                    sx={{ 
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        maxHeight: 700,
-                        minWidth: '375px'
-                    }}
-                >
+                <DataTable>
+                    <DataTable.Header>
+                        <DataTable.Title
+                            style={styles.info}>Type</DataTable.Title>
+                        <DataTable.Title>Title</DataTable.Title>
+                        <DataTable.Title>Release Year</DataTable.Title>
+                        <DataTable.Title>Rating</DataTable.Title>
+                    </DataTable.Header>
 
-                    <Table id="netflixTable" aria-label="simple table"
-                           sx={{minWidth: '375px', tableLayout: 'fixed'}}
-                           stickyHeader>
-                        <TableHead>
-                            <TableRow id="showtableHeader" tabIndex={0}>
-                                <TableCell
-                                    align="center">Type</TableCell>
-                                <TableCell align="center">Title</TableCell>
-                                <TableCell
-                                    align="center"
-                                >Release Year</TableCell>
-                                <TableCell
-                                    align="center">Your rating</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {Object.values(data.shows as IShow[]).flat().map((show) => (
-                                <TableRow id="showtableBody" tabIndex={0}
-                                          key={show.show_id}
-                                          sx={{
-                                              "&:last-child td, &:last-child th": {border: 0}
-                                          }}
-                                          onClick={() => {
-                                              handleOpen();
-                                              setShowId(show.show_id);
-                                          }}
-                                          onKeyUp={(e) => {
-                                              if (e.key === "Enter" && !e.defaultPrevented)
-                                                  e.currentTarget.click();
-                                          }}
+                    {Object.values(data?.shows as IShow[]).flat().map((show) => (
+                        <DataTable.Row key={show.show_id} onPress={() => {
+                            handleOpen();
+                            setShowId(show.show_id);
+                        }}
+                        >
+                            <DataTable.Cell>{show.type}</DataTable.Cell>
+                            <DataTable.Cell>{show.title}</DataTable.Cell>
+                            <DataTable.Cell>{show.release_year}</DataTable.Cell>
+                            <DataTable.Cell><Rating
+                                ratingTextColor={"white"}
+                                type='custom'
+                                style={{}}
+                                jumpValue={1}
+                                readonly={true}
+                                showReadOnlyText={false}
+                                imageSize={20}
+                                showRating
+                                startingValue={show.rating}
+                            /></DataTable.Cell>
+                        </DataTable.Row>
 
-                                >
-                                    <TableCell
-                                        align="center"
-                                        data-testid="c"
-                                    >{show.type}</TableCell>
-                                    <TableCell
-                                        data-testid="title-cell"
-                                        align="center">{show.title}</TableCell>
-                                    <TableCell
-                                        align="center">{show.release_year}</TableCell>
-                                    <TableCell
-                                        align="center"><Rating
-                                        sx={{
-                                            justifyContent: 'center'
-                                        }}
-                                        size={"small"}
-                                        name="read-only"
-                                        readOnly
-                                        aria-label="rating"
-                                        value={show.rating}
-                                    /></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer> */}
-                <Pagination
-                    style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}
-                    id="tablepagenumbers"
-                    onChange={handlePageNumberChange}
-                    count={pageCount}
-                    color={"primary"}
-                />
+
+                    ))}
+                    <DataTable.Pagination
+                        page={page}
+                        numberOfPages={pageCount + 1}
+                        numberOfItemsPerPage={12}
+                        showFastPaginationControls
+                        onPageChange={(page: number) => handlePageNumberChange(page)}
+                        label={`${page} of ${pageCount}`}
+                        selectPageDropdownLabel={'Rows per page'}
+                    />
+
+                </DataTable>
+
             </View>
         </>
-
-
     )
 }
-
 
 export default ShowsTable;

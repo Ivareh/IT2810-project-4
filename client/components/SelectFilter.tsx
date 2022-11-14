@@ -1,15 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
 import {StyleSheet, Text, View} from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 import {Picker} from "@react-native-picker/picker";
 
-
-const types = [
-    {label: 'All', value: ''},
-    {label: 'Movies', value: 'Movie'},
-    {label: 'TV-shows', value: 'TV Show'},
-];
 
 type props = {
     handleSelect: (searchTerm: string) => void
@@ -20,11 +12,10 @@ type props = {
  * @param handleSelect  function from parent that handles the selected value.
  */
 function SelectFilter({handleSelect}: props) {
-    const [selectedOption, setSelectedOption] = React.useState(types[0]);
-
-    const handleChange = (choice: { label: string; value: string; }) => {
-        setSelectedOption(choice);
-        handleSelect(choice.value);
+    const [selectedOption, setSelectedOption] = React.useState("All");
+    const handleChange = (itemValue: string) => {
+        setSelectedOption(itemValue);
+        handleSelect(itemValue);
     }
     const styles = StyleSheet.create({
         container: {
@@ -35,12 +26,13 @@ function SelectFilter({handleSelect}: props) {
             alignSelf: "center",
         },
         selectFilter: {
-            width: 200,
+            minWidth: 150,
             height: 25,
             marginBottom: 10,
+            fontSize: 18
 
         },
-        text : {
+        text: {
             fontSize: 18,
         }
     })
@@ -51,18 +43,18 @@ function SelectFilter({handleSelect}: props) {
             style={styles.container}
             nativeID="selectFilterContainer">
             <Text
-            style={styles.text}
+                style={styles.text}
             >Select show type:</Text>
             <Picker
                 style={styles.selectFilter}
                 nativeID={"selectFilter"}
                 aria-label='select show type'
                 selectedValue={selectedOption}
-                onValueChange={(choice) => handleChange(choice as { label: string; value: string; })}
+                onValueChange={(itemValue) => handleChange(itemValue)}
             >
-                <Picker.Item label="All" value="" />
-                <Picker.Item label="Movies" value="Movie" />
-                <Picker.Item label="TV-shows" value="TV Show" />
+                <Picker.Item label="All" value=""/>
+                <Picker.Item label="Movies" value="Movie"/>
+                <Picker.Item label="TV-shows" value="TV Show"/>
 
             </Picker>
         </View>

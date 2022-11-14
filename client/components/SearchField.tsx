@@ -1,7 +1,6 @@
 import {useState} from "react";
-import { Text, TextInput, View } from 'react-native';
+import {TextInput, View} from 'react-native';
 import {searchTerm} from "./globalVariables";
-
 
 
 /**
@@ -22,7 +21,13 @@ function SearchField() {
                     e.preventDefault();
                     searchTerm(searchValue)
                 }}
-                style={{height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10}}
+                style={{
+                    height: 40,
+                    borderColor: 'gray',
+                    borderWidth: 1,
+                    paddingLeft: 10,
+                    fontSize: 18,
+                }}
             />
         </View>
     );
