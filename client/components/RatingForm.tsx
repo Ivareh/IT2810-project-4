@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useState} from 'react';
 import {Rating} from 'react-native-ratings';
 import {gql, useMutation} from "@apollo/client";
-import {ADD_REVIEW} from "../schemas/Queries";
+import {ADD_REVIEW} from "../schemas/Mutations";
 import {reviewCount} from "./globalVariables";
 import {Pressable, StyleSheet, Text, TextInput, View} from "react-native";
 

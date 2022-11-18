@@ -4,7 +4,9 @@ import {ImageBackground, StyleSheet, Text, View} from "react-native";
 const image = require('../assets/images/theatreBackground.webp');
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         width: '100%',
+        backgroundColor: 'black',
     },
     image: {
         flex: 1,
@@ -13,7 +15,7 @@ const styles = StyleSheet.create({
         alignContent: "center",
         background: "no-repeat fixed",
         height: 200,
-        padding:10,
+        padding: 10,
     },
     mainText: {
         color: "white",
@@ -28,14 +30,15 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "white",
         marginLeft: 20,
+        marginTop: 10,
         textAlign: "left"
     },
     logoContainer: {
-      backgroundColor: "black",          
-      display: "flex",
-      justifyContent: "center",
-      height:30,
-      width: "100%",
+        marginTop: 20,
+        backgroundColor: "black",
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
     }
 });
 
