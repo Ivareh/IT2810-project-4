@@ -13,14 +13,20 @@ const styles = StyleSheet.create({
         width: "70%",
         alignSelf: "center",
         marginBottom: 20,
+
     },
     sortingField: {
         minWidth: 150,
         height: 25,
-        fontSize: 18
+        fontSize: 18,
+        color: "white",
+        backgroundColor: "black",
+
+
     },
     text: {
         fontSize: 14,
+        color: "white",
     }
 })
 
@@ -52,9 +58,10 @@ export function SortingField({getSortType}: props) {
                 nativeID={"sortFilter"}
                 aria-label='select show type'
                 selectedValue={selectedOption}
+                dropdownIconColor={"white"}
                 onValueChange={(choice) => handleChange(choice)}
             >
-                <Picker.Item label="Ascending" value="DESC"/>
+                <Picker.Item  label="Ascending" value="DESC"/>
                 <Picker.Item label="Descending" value="ASC"/>
             </Picker>
         </View>

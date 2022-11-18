@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
         flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: 'black',
     },
     contentContainer: {
         alignItems: 'center',

@@ -15,12 +15,20 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         width: "70%",
         alignSelf: "center",
+
     },
     selectFilter: {
         minWidth: 150,
+        backgroundColor: "black",
+        borderStyle: "solid",
+        borderRadius: 5,
+        color: "white",
+
+
     },
     text: {
         fontSize: 14,
+        color: "white",
     }
 })
 
@@ -41,10 +49,12 @@ function SelectFilter({handleSelect}: props) {
             nativeID="selectFilterContainer">
             <Text
                 style={styles.text}
-            >Select show type:</Text>
+            >Show type:</Text>
             <Picker
                 style={styles.selectFilter}
                 nativeID={"selectFilter"}
+                focusable={true}
+                dropdownIconColor={"white"}
                 aria-label='select show type'
                 selectedValue={selectedOption}
                 onValueChange={(itemValue: string) => handleChange(itemValue)}

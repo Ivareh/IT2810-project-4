@@ -7,12 +7,14 @@ import {searchResult, searchTerm} from "../globalVariables/globalVariables";
 import {StyleSheet, Text, View} from "react-native";
 import {DataTable} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
+import { DefaultTheme, MD3DarkTheme, Provider as PaperProvider } from 'react-native-paper'
 
 const styles = StyleSheet.create({
-    table: {
+    tableView: {
         width: "80%",
         backgroundColor: "#fff",
         marginTop: 20,
+
     },
     info: {
         marginTop: 20,
@@ -37,6 +39,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#78B7BB',
         borderRadius: 2
     },
+    pagination: {
+        color: 'white',
+
+
+    },
+
     btnText: {textAlign: 'center', color: '#fff'},
 })
 
@@ -162,16 +170,23 @@ function ShowsTable({value, sort}: Props) {
             </View>
 
             <View
-                style={styles.table}
+                style={styles.tableView}
                 nativeID="netflixList">
-                <DataTable>
-                    <DataTable.Header>
+                <DataTable
+                    style={{backgroundColor: "black"}}
+                >
+                    <DataTable.Header
+                    >
                         <DataTable.Title
-
-                            textStyle={{width: 200}}>Title</DataTable.Title>
-                        <DataTable.Title style={{marginLeft: 50}} numeric>Release
+                            textStyle={{
+                                width: 200,
+                                color: "white"
+                            }}>Title</DataTable.Title>
+                        <DataTable.Title style={{marginLeft: 50}}
+                                         textStyle={{color: "white"}} numeric>Release
                             Year</DataTable.Title>
-                        <DataTable.Title numeric>Rating</DataTable.Title>
+                        <DataTable.Title textStyle={{color: "white"}}
+                                         numeric>Rating</DataTable.Title>
                     </DataTable.Header>
 
                     {Object.values(data?.shows as ShowData[]).flat().map((show) => (
@@ -183,12 +198,16 @@ function ShowsTable({value, sort}: Props) {
                         }}
                         >
                             <DataTable.Cell
-                                textStyle={{width: 150}}
+                                textStyle={{width: 150, color: "white"}}
 
                             >{show.title}</DataTable.Cell>
                             <DataTable.Cell
+                                textStyle={{color: "white"}}
                                 numeric>{show.release_year}</DataTable.Cell>
-                            <DataTable.Cell numeric><Rating
+                            <DataTable.Cell numeric textStyle={{
+                                color: "white"
+                            }}><Rating
+                                tintColor={"black"}
                                 jumpValue={1}
                                 ratingCount={1}
                                 readonly={true}
@@ -201,6 +220,7 @@ function ShowsTable({value, sort}: Props) {
 
                     ))}
                     <DataTable.Pagination
+                        style={styles.pagination}
                         page={page}
                         numberOfPages={pageCount + 1}
                         numberOfItemsPerPage={12}
@@ -210,7 +230,9 @@ function ShowsTable({value, sort}: Props) {
                         selectPageDropdownLabel={'Rows per page'}
                     />
 
+
                 </DataTable>
+
 
             </View>
         </>

@@ -122,6 +122,7 @@ export default function RatingForm({
         >
             <Rating
                 jumpValue={1}
+                fractions={1}
                 data-testid={'review-rating'}
                 aria-label="review_rating"
                 onFinishRating={(newValue: React.SetStateAction<number | null>) => {

@@ -125,6 +125,11 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
                             style={styles.modalText}>Produced
                             in: {data?.shows[0].country || "Unknown"}
                         </Text>
+                        <Text
+                            nativeID={"modalType"}
+                            data-testid="modal-type"
+                            style={styles.modalText}>Type: {data?.shows[0].type}
+                        </Text>
                         <RatingForm show_id={show_id} handleClose={handleClose}
                                     rating={data.shows[0].rating}/>
                     </View>
