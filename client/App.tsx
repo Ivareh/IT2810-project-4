@@ -1,4 +1,4 @@
-import {StyleSheet, ScrollView} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet} from 'react-native';
 import Header from "./components/Header";
 import NetflixList from "./components/NetflixList";
 import Footer from "./components/Footer";
@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     contentContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
@@ -42,7 +42,12 @@ const client = new ApolloClient({
 export default function App() {
     return (
         <ApolloProvider client={client}>
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <StatusBar
+                animated={true}
+                translucent={true}
+            />
+            <ScrollView style={styles.container}
+                        contentContainerStyle={styles.contentContainer}>
                 <Header/>
                 <NetflixList/>
                 <Footer/>
