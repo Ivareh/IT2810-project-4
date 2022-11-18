@@ -220,7 +220,7 @@ function ShowsTable({value, sort}: Props) {
 
                     ))}
                     <DataTable.Pagination
-                        style={styles.pagination}
+                        style={{backgroundColor: "white"}}
                         page={page}
                         numberOfPages={pageCount + 1}
                         numberOfItemsPerPage={12}
@@ -229,8 +229,6 @@ function ShowsTable({value, sort}: Props) {
                         label={`${page} of ${pageCount}`}
                         selectPageDropdownLabel={'Rows per page'}
                     />
-
-
                 </DataTable>
 
 
