@@ -6,6 +6,7 @@ export const ADD_REVIEW = gql`
             shows {
                 show_id
                 rating
+                note
             }
         }
     }

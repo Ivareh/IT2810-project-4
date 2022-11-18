@@ -28,6 +28,7 @@ export const LOAD_SINGLE_SHOW = gql`
             rating
             country
             type
+            note
         }
     }`
 

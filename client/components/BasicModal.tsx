@@ -131,7 +131,7 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
                             style={styles.modalText}>Type: {data?.shows[0].type}
                         </Text>
                         <RatingForm show_id={show_id} handleClose={handleClose}
-                                    rating={data.shows[0].rating}/>
+                                    rating={data.shows[0].rating} note={data.shows[0].note}/>
                     </View>
                 </View>
 

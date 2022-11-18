@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     }
 })
-type RatingFormProps = { show_id: string, handleClose: () => void, rating: number | null };
+type RatingFormProps = { show_id: string, handleClose: () => void, rating: number | null, note: string };
 
 /**
  * Contains a rating- and a TextAreaAutosize component from MUI which is
@@ -53,7 +53,8 @@ type RatingFormProps = { show_id: string, handleClose: () => void, rating: numbe
 export default function RatingForm({
                                        show_id,
                                        handleClose,
-                                       rating
+                                       rating,
+                                       note
                                    }: RatingFormProps) {
     const [text, setText] = useState('')
     const [value, setValue] = React.useState<number | null>(rating || 0);
@@ -63,7 +64,7 @@ export default function RatingForm({
     const [addReview, {error}] = useMutation(ADD_REVIEW, {
         variables: {
             where: {show_id: show_id},
-            update: {rating: value}
+            update: {rating: value, note: text}
 
         },
         // Update local cache to reflect that we updated rating to a single
@@ -104,7 +105,7 @@ export default function RatingForm({
             addReview({
                 variables: {
                     where: {show_id: show_id},
-                    update: {rating: value}
+                    update: {rating: value, note: text}
                 },
             });
             reviewCount(reviewCount() + 1);
@@ -148,8 +149,8 @@ export default function RatingForm({
                 multiline={true}
                 numberOfLines={4}
                 maxLength={200}
-                placeholder="Write a review"
-                onChangeText={(text : string) => {
+                placeholder={note || "Write a note"}
+                onChangeText={(text: string) => {
                     setText(text as string)
                     setDidExecute(false)
                 }}
