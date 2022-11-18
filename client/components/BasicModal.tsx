@@ -1,9 +1,24 @@
 import * as React from 'react';
 import {useQuery} from "@apollo/client";
 import {LOAD_SINGLE_SHOW} from "../schemas/Queries";
-import CircularIndeterminate from "./container/CircularIndeterminate";
+import CircularIndeterminate from "./container/LoadingSpinner";
 import {Modal, StyleSheet, Text, View} from "react-native";
 import RatingForm from "./RatingForm";
+import LoadingSpinner from "./container/LoadingSpinner";
+
+interface ShowData {
+    shows: {
+        show_id: number,
+        title: string,
+        duration: string,
+        director: string,
+        show_description: string,
+        show_rating: string,
+        rating: number,
+        country: string
+    }
+}
+
 
 const styles = StyleSheet.create({
     centeredView: {
@@ -65,7 +80,7 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
     )
 
     if (loading) return (
-        <CircularIndeterminate/>
+        <LoadingSpinner/>
     )
 
     console.log(data)
@@ -82,7 +97,7 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
                         <Text
                             nativeID={"modalTitle"}
                             data-testid="modal-title"
-                            style={styles.modalTitle}>{data.shows[0].title}
+                            style={styles.modalTitle}>{ data?.shows[0].title}
                         </Text>
                         <Text
                             nativeID={"modal-duration"}
@@ -97,7 +112,7 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
                         <Text
                             nativeID={"modalDescription"}
                             data-testid="modal-description"
-                            style={styles.modalText}>{data.shows[0].show_description}
+                            style={styles.modalText}>{data?.shows[0].show_description}
                         </Text>
                         <Text
                             nativeID={"modalRating"}
@@ -108,7 +123,12 @@ export default function BasicModal({show_id, isOpen, handleClose}: Props) {
                             nativeID={"modalCountry"}
                             data-testid="modal-country"
                             style={styles.modalText}>Produced
-                            in: {data.shows[0].country || "Unknown"}
+                            in: {data?.shows[0].country || "Unknown"}
+                        </Text>
+                        <Text
+                            nativeID={"modalType"}
+                            data-testid="modal-type"
+                            style={styles.modalText}>Type: {data?.shows[0].type}
                         </Text>
                         <RatingForm show_id={show_id} handleClose={handleClose}
                                     rating={data.shows[0].rating}/>

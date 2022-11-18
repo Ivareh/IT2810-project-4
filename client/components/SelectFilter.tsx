@@ -6,9 +6,34 @@ import {Picker} from "@react-native-picker/picker";
 type props = {
     handleSelect: (searchTerm: string) => void
 }
+const styles = StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "space-between",
+        width: "70%",
+        alignSelf: "center",
+
+    },
+    selectFilter: {
+        minWidth: 150,
+        backgroundColor: "black",
+        borderStyle: "solid",
+        borderRadius: 5,
+        color: "white",
+
+
+    },
+    text: {
+        fontSize: 14,
+        color: "white",
+    }
+})
 
 /**
- * Contains a select component from react-select which holds filter types used in queries.
+ * Component that renders a select filter which is used to filter the search results.
  * @param handleSelect  function from parent that handles the selected value.
  */
 function SelectFilter({handleSelect}: props) {
@@ -17,24 +42,6 @@ function SelectFilter({handleSelect}: props) {
         setSelectedOption(itemValue);
         handleSelect(itemValue);
     }
-    const styles = StyleSheet.create({
-        container: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            alignContent: "center",
-            justifyContent: "space-between",
-            width: "70%",
-            alignSelf: "center",
-        },
-        selectFilter: {
-            minWidth: 150,
-        },
-        text: {
-            fontSize: 14,
-        }
-    })
-
 
     return (
         <View
@@ -42,13 +49,15 @@ function SelectFilter({handleSelect}: props) {
             nativeID="selectFilterContainer">
             <Text
                 style={styles.text}
-            >Select show type:</Text>
+            >Show type:</Text>
             <Picker
                 style={styles.selectFilter}
                 nativeID={"selectFilter"}
+                focusable={true}
+                dropdownIconColor={"white"}
                 aria-label='select show type'
                 selectedValue={selectedOption}
-                onValueChange={(itemValue) => handleChange(itemValue)}
+                onValueChange={(itemValue: string) => handleChange(itemValue)}
             >
                 <Picker.Item label="All" value=""/>
                 <Picker.Item label="Movies" value="Movie"/>

@@ -1,16 +1,26 @@
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {Linking, StyleSheet, Text, View} from "react-native";
 
 const styles = StyleSheet.create({
     footer: {
         width: "80%",
-        
+        backgroundColor: "black",
+
     },
     text: {
         textAlign: 'center',
         letterSpacing: 1,
         fontSize: 10,
         marginBottom: 5,
+        color: "white",
+    },
+    gitLabText: {
+        textAlign: 'center',
+        letterSpacing: 1,
+        fontSize: 10,
+        marginBottom: 5,
+        color: "blue",
+
     }
 })
 
@@ -31,11 +41,12 @@ const Footer = () => {
             <View
                 style={{justifyContent: "space-evenly"}}
             >
-                <Text style={styles.text}> Check us out on
-                    https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3
+                <Text style={styles.gitLabText}
+                      onPress={() => Linking.openURL('https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3')}> Check
+                    us out on
+                    Gitlab
                 </Text>
             </View>
-
         </View>
 
     )

@@ -5,6 +5,19 @@ import SearchField from "./SearchField";
 import React, {useState} from "react";
 import {StyleSheet, View} from "react-native";
 
+const styles = StyleSheet.create({
+    container: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        marginTop: 20,
+        marginBottom: 20,
+        width: "100%",
+
+    }
+})
+
 
 /**
  * NetflixList component which supplies filter and sort options to the
@@ -16,26 +29,11 @@ export default function NetflixList() {
 
     function getSortType(sortTerm: string) {
         setSort(sortTerm)
-        console.log(sortTerm)
     }
 
     function handleSelect(value: any) {
         setValue(value)
-        console.log(value)
     }
-
-    const styles = StyleSheet.create({
-        container: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            marginTop: 20,
-            marginBottom: 20,
-            width: "100%",
-
-        }
-    })
 
     return (
         <View style={styles.container} nativeID="netflixContainer">

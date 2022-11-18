@@ -1,15 +1,55 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import BasicModal from "./BasicModal";
 import {useQuery, useReactiveVar} from "@apollo/client";
 import {FEED_SORT_TABLE_SHOWS} from "../schemas/Queries";
-import CircularIndeterminate from "./container/CircularIndeterminate";
-import {reviewCount, searchResult, searchTerm} from "./globalVariables";
-import {StyleSheet, Text, View, ScrollView} from "react-native";
+import LoadingSpinner from "./container/LoadingSpinner";
+import {searchResult, searchTerm} from "../globalVariables/globalVariables";
+import {StyleSheet, Text, View} from "react-native";
 import {DataTable} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
+import { DefaultTheme, MD3DarkTheme, Provider as PaperProvider } from 'react-native-paper'
+
+const styles = StyleSheet.create({
+    tableView: {
+        width: "80%",
+        backgroundColor: "#fff",
+        marginTop: 20,
+
+    },
+    info: {
+        marginTop: 20,
+        width: "70%",
+        flex: 1,
+        flexDirection: 'column',
+        columnGap: 10,
+        fontSize: 19,
+    },
+    head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
+    text: {margin: 6, textAlign: "center"},
+    container: {
+        flex: 1,
+        padding: 16,
+        paddingTop: 30,
+        backgroundColor: '#fff'
+    },
+    row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
+    btn: {
+        width: 58,
+        height: 18,
+        backgroundColor: '#78B7BB',
+        borderRadius: 2
+    },
+    pagination: {
+        color: 'white',
 
 
-interface IShow {
+    },
+
+    btnText: {textAlign: 'center', color: '#fff'},
+})
+
+
+interface ShowData {
     show_id: string;
     type: string;
     title: string;
@@ -24,12 +64,12 @@ type Props = {
 }
 
 type DataFromQuery = {
-    shows: IShow[];
+    shows: ShowData[];
     showsAggregate: {
         count: number;
     }
 }
-const optionsPerPage = [2, 3, 4];
+
 
 /**
  * ShowsTable component which is used to display the search results.
@@ -38,7 +78,6 @@ function ShowsTable({value, sort}: Props) {
     const [modalOpen, setModalOpen] = useState(false)
     const [showId, setShowId] = useState('')
     const [pageCount, setPageCount] = useState(1)
-    const searchCount = useReactiveVar(reviewCount)
     const searchWord = useReactiveVar(searchTerm)
     const [page, setPage] = useState(1)
 
@@ -49,7 +88,12 @@ function ShowsTable({value, sort}: Props) {
      * @param value The value which is used to filter the data.
      * @param sort The sort type which is used to sort the data.
      */
-    const {error, loading, data, refetch} = useQuery<DataFromQuery>(FEED_SORT_TABLE_SHOWS, {
+    const {
+        error,
+        loading,
+        data,
+        refetch
+    } = useQuery<DataFromQuery>(FEED_SORT_TABLE_SHOWS, {
         variables: {
             offset: 0,
             limit: 12,
@@ -83,7 +127,7 @@ function ShowsTable({value, sort}: Props) {
     )
 
     if (loading) return (
-        <CircularIndeterminate/>
+        <LoadingSpinner/>
     )
 
 
@@ -109,41 +153,9 @@ function ShowsTable({value, sort}: Props) {
     } else {
         if (value == "") {
             searchResult(`Showing results for "${searchWord}".`)
-        } 
+        }
     }
 
-
-    const styles = StyleSheet.create({
-        table: {
-            width: "80%",
-            backgroundColor: "#fff",
-            marginTop: 20,
-        },
-        info: {
-          marginTop: 20,
-          width: "70%",
-          flex: 1,
-          flexDirection: 'column',
-          columnGap: 10,
-          fontSize: 19,
-        },
-        head: {height: 40, backgroundColor: '#fff', textAlign: "center"},
-        text: {margin: 6, textAlign: "center"},
-        container: {
-            flex: 1,
-            padding: 16,
-            paddingTop: 30,
-            backgroundColor: '#fff'
-        },
-        row: {flexDirection: 'row', backgroundColor: '#FFF1C1'},
-        btn: {
-            width: 58,
-            height: 18,
-            backgroundColor: '#78B7BB',
-            borderRadius: 2
-        },
-        btnText: {textAlign: 'center', color: '#fff'},
-    })
 
     return (
         <>
@@ -158,18 +170,26 @@ function ShowsTable({value, sort}: Props) {
             </View>
 
             <View
-                style={styles.table}
+                style={styles.tableView}
                 nativeID="netflixList">
-                <DataTable>
-                    <DataTable.Header>
+                <DataTable
+                    style={{backgroundColor: "black"}}
+                >
+                    <DataTable.Header
+                    >
                         <DataTable.Title
-
-                            textStyle={{width: 200}}>Title</DataTable.Title>
-                        <DataTable.Title style={{marginLeft: 50}} numeric>Release Year</DataTable.Title>
-                        <DataTable.Title numeric>Rating</DataTable.Title>
+                            textStyle={{
+                                width: 200,
+                                color: "white"
+                            }}>Title</DataTable.Title>
+                        <DataTable.Title style={{marginLeft: 50}}
+                                         textStyle={{color: "white"}} numeric>Release
+                            Year</DataTable.Title>
+                        <DataTable.Title textStyle={{color: "white"}}
+                                         numeric>Rating</DataTable.Title>
                     </DataTable.Header>
 
-                    {Object.values(data?.shows as IShow[]).flat().map((show) => (
+                    {Object.values(data?.shows as ShowData[]).flat().map((show) => (
                         <DataTable.Row
                             style={{width: 'auto'}}
                             key={show.show_id} onPress={() => {
@@ -178,11 +198,16 @@ function ShowsTable({value, sort}: Props) {
                         }}
                         >
                             <DataTable.Cell
-                                textStyle={{width: 150}}
+                                textStyle={{width: 150, color: "white"}}
 
                             >{show.title}</DataTable.Cell>
-                            <DataTable.Cell numeric>{show.release_year}</DataTable.Cell>
-                            <DataTable.Cell numeric><Rating
+                            <DataTable.Cell
+                                textStyle={{color: "white"}}
+                                numeric>{show.release_year}</DataTable.Cell>
+                            <DataTable.Cell numeric textStyle={{
+                                color: "white"
+                            }}><Rating
+                                tintColor={"black"}
                                 jumpValue={1}
                                 ratingCount={1}
                                 readonly={true}
@@ -195,6 +220,7 @@ function ShowsTable({value, sort}: Props) {
 
                     ))}
                     <DataTable.Pagination
+                        style={{backgroundColor: "white"}}
                         page={page}
                         numberOfPages={pageCount + 1}
                         numberOfItemsPerPage={12}
@@ -203,8 +229,8 @@ function ShowsTable({value, sort}: Props) {
                         label={`${page} of ${pageCount}`}
                         selectPageDropdownLabel={'Rows per page'}
                     />
-
                 </DataTable>
+
 
             </View>
         </>

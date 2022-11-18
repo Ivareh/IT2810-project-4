@@ -3,12 +3,48 @@ import {useState} from 'react';
 import {Rating} from 'react-native-ratings';
 import {gql, useMutation} from "@apollo/client";
 import {ADD_REVIEW} from "../schemas/Mutations";
-import {reviewCount} from "./globalVariables";
+import {reviewCount} from "../globalVariables/globalVariables";
 import {Pressable, StyleSheet, Text, TextInput, View} from "react-native";
 
+const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
 
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        alignSelf: "center",
+        width: 200,
+        marginBottom: 10,
+    },
+    buttonReview: {
+        backgroundColor: "#2196F3",
+    },
+    buttonClose: {
+        backgroundColor: "grey",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    textSuccess: {
+        color: "green",
+        fontWeight: "bold",
+        marginBottom: 5,
+    },
+    textError: {
+        color: "red",
+        fontWeight: "bold",
+        marginBottom: 5,
+    }
+})
 type RatingFormProps = { show_id: string, handleClose: () => void, rating: number | null };
-
 
 /**
  * Contains a rating- and a TextAreaAutosize component from MUI which is
@@ -51,7 +87,6 @@ export default function RatingForm({
                 }
             });
         },
-
         onCompleted: () => {
             setDidExecute(true)
         },
@@ -59,7 +94,7 @@ export default function RatingForm({
     });
 
 
-    // function that valides that the rating is between 0 and 5
+    // function that validates that the rating is between 0 and 5.
     const validateRating = (rating: number) => {
         if (rating < 1 || rating > 5) {
             setIsValueValid(false)
@@ -80,44 +115,6 @@ export default function RatingForm({
 
     if (error) return <Text>Error! {error.message}</Text>;
 
-    const styles = StyleSheet.create({
-        container: {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-
-        },
-        button: {
-            borderRadius: 20,
-            padding: 10,
-            elevation: 2,
-            alignSelf: "center",
-            width: 200,
-            marginBottom: 10,
-        },
-        buttonReview: {
-            backgroundColor: "#2196F3",
-        },
-        buttonClose: {
-            backgroundColor: "grey",
-        },
-        textStyle: {
-            color: "white",
-            fontWeight: "bold",
-            textAlign: "center"
-        },
-        textSuccess: {
-            color: "green",
-            fontWeight: "bold",
-            marginBottom: 5,
-        },
-        textError: {
-            color: "red",
-            fontWeight: "bold",
-            marginBottom: 5,
-        }
-    })
 
     return (
         <View
@@ -125,9 +122,9 @@ export default function RatingForm({
         >
             <Rating
                 jumpValue={1}
+                fractions={1}
                 data-testid={'review-rating'}
                 aria-label="review_rating"
-                showRating
                 onFinishRating={(newValue: React.SetStateAction<number | null>) => {
                     setDidExecute(false)
                     setValue(newValue);
@@ -135,8 +132,6 @@ export default function RatingForm({
                 }}
                 style={{paddingVertical: 10}}
             />
-
-
             <TextInput
                 style={{
                     borderStyle: 'solid',
@@ -154,13 +149,11 @@ export default function RatingForm({
                 numberOfLines={4}
                 maxLength={200}
                 placeholder="Write a review"
-                onChangeText={(text) => {
+                onChangeText={(text : string) => {
                     setText(text as string)
                     setDidExecute(false)
                 }}
                 value={text}/>
-
-
             <Pressable
                 style={[styles.button, styles.buttonReview]}
                 data-testid={'submit-button'}

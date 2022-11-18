@@ -12,7 +12,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default function CircularIndeterminate() {
+/**
+ * Returns a loading spinner for the application.
+ */
+export default function LoadingSpinner() {
     return (
         <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" />

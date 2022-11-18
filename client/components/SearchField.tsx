@@ -1,7 +1,6 @@
-import React from "react";
-import {useState} from "react";
+import React, {useState} from "react";
 import {StyleSheet, TextInput, View} from 'react-native';
-import {searchTerm} from "./globalVariables";
+import {searchTerm} from "../globalVariables/globalVariables";
 
 
 /**
@@ -9,17 +8,22 @@ import {searchTerm} from "./globalVariables";
  * input to a global variable called searchTerm.
  */
 
- const styles = StyleSheet.create({
-      searchbox: {
+const styles = StyleSheet.create({
+    searchbox: {
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         paddingLeft: 10,
         fontSize: 18,
-        marginBottom:10,
-      }
- })
+        marginBottom: 10,
+        color: "black",
+        backgroundColor: "white",
+        borderStyle: "solid",
+        borderRadius: 5,
 
+
+    }
+})
 
 
 function SearchField() {
@@ -31,7 +35,7 @@ function SearchField() {
             <TextInput
                 placeholder={"Search for movies"}
                 defaultValue={searchValue}
-                onChangeText={(text) => setSearchValue(text as string)}
+                onChangeText={(text: string) => setSearchValue(text as string)}
                 onSubmitEditing={(e) => {
                     e.preventDefault();
                     searchTerm(searchValue)
