@@ -49,5 +49,5 @@ In P4, we removed the text that displays which filter/sort options that were sup
 #### Pagination bug fix
 There was a small bug in the pagination functions in P3, which we made a fix to. Sometimes we would get the wrong data from the database when paginating. When getting data through the "FEED_SORT_TABLE_SHOWS"-query (see /schemas/Queries.tsx), the offset was calculated in a way it behaved unpredictable. It should be constantly proportional to only the pagination number. We fixed this issue and now there is no bugs when pulling data with the new offset calculation.
 
-#### Bugs
+## Bugs
 The note field that appears when you click on a movie is not functional. We meant to fix it at the end of project 3, but we had major issues getting the backend to run on the VM so we did not prioritize fixing it. We also read that we should leave the backend unchanged for P4 so we did not touch it. 
