@@ -35,7 +35,6 @@ const Footer = () => {
                     https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-62/project-3
                 </Text>
             </View>
-
         </View>
 
     )

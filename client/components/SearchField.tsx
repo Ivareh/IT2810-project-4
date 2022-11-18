@@ -1,7 +1,7 @@
 import React from "react";
 import {useState} from "react";
 import {StyleSheet, TextInput, View} from 'react-native';
-import {searchTerm} from "./globalVariables";
+import {searchTerm} from "../globalVariables/globalVariables";
 
 
 /**
@@ -31,7 +31,7 @@ function SearchField() {
             <TextInput
                 placeholder={"Search for movies"}
                 defaultValue={searchValue}
-                onChangeText={(text) => setSearchValue(text as string)}
+                onChangeText={(text : string) => setSearchValue(text as string)}
                 onSubmitEditing={(e) => {
                     e.preventDefault();
                     searchTerm(searchValue)

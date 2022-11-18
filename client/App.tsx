@@ -25,7 +25,7 @@ const cache = new InMemoryCache({
         Query: {
             fields: {
                 shows: {
-                    merge(existing, incoming) {
+                    merge(existing , incoming) {
                         return incoming;
                     }
                 }

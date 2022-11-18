@@ -44,9 +44,7 @@ const styles = StyleSheet.create({
 
 
 /**
- * Header for react native. Background image should render in the background
- * allowing other components to be rendered on top of it.
- * @constructor
+ * Header component which is rendered on the top of the page.
  */
 const Header = () => {
     return (
@@ -56,8 +54,6 @@ const Header = () => {
                 style={styles.logoContainer}
             >
                 <Text style={styles.logo}>NETFLIX LIBRARY</Text>
-
-
             </View>
             <View
                 nativeID={"header"}
@@ -70,8 +66,6 @@ const Header = () => {
                 </ImageBackground>
             </View>
         </>
-
-
     )
 
 
