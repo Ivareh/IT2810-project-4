@@ -51,5 +51,3 @@ There was a small bug in the pagination functions in P3, which we made a fix to.
 
 #### Bugs
 The note field that appears when you click on a movie is not functional. We meant to fix it at the end of project 3, but we had major issues getting the backend to run on the VM so we did not prioritize fixing it. We also read that we should leave the backend unchanged for P4 so we did not touch it. 
-
-The pagination component which is under the data table has a white background for readability. We would have it be black and 
